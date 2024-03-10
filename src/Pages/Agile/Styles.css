@@ -1,0 +1,22 @@
+.back{
+    background: black; /* Fallback color */
+    background: linear-gradient(to bottom, black, rgb(183, 90, 8)); /* Dégradé de couleur */
+    height: 'auto';
+  }
+
+  .back-img{
+   background-image: url('../../assets/img/agile.png');
+   background-repeat: no-repeat;
+   background-position: center;
+   background-size: cover;
+   height: 'auto';
+  }
+
+  .txt-agile{
+    font-size: 40px;
+    color: white;
+    text-align: center;
+    margin: auto;
+  }
+  
+  

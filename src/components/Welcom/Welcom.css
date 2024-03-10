@@ -1,0 +1,49 @@
+ /*.main-bloc {
+    background-image: url('../../assets/img/b1.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 550px;
+    position: relative;
+    align-items: center;
+  }*/
+
+
+  .bloc-cover {
+    background-color: rgba(0, 0, 0, 0.272);
+    height: 550px;
+  }
+
+  .main-bloc {
+    width: 100%;
+    height: 550px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    animation:10s slideImages  infinite;
+  }
+  
+  @keyframes slideImages {
+    0% { background-image: url('../../assets/img/b1.png'); }
+    10% { background-image: url('../../assets/img/bg11.jpg'); }
+    30% { background-image: url('../../assets/img/bg1.jpg'); }
+    60% { background-image: url('../../assets/img/bg5.jpg'); }
+    80% { background-image: url('../../assets/img/bag.jpeg'); }
+    100% { background-image: url('../../assets/img/banner.jpg'); }
+  }
+
+
+  .search {
+    position: absolute;
+    bottom: 0;
+    background-color: white;
+    margin-top: 100px;
+    width: 60%;
+    height: 'auto';
+    padding: 20px;
+    margin: auto;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.495);
+  }

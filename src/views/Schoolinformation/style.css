@@ -1,0 +1,55 @@
+h1 {
+    font-size: 20px;
+    color:green;
+    font-weight:bold;
+    font-size: 25px;
+}
+.first{
+    margin-top: -70px;
+}
+.root {
+    width: '100%';
+    
+    border-radius:20px;
+    background-color:white
+}
+
+.main {
+    background-color:green;
+     border-radius:10px 10px 0px 0px
+}
+
+.texte {
+    color:white;
+    padding:10px 0px 10px 30px;
+    font-weight:bold
+}
+.texte1 {
+    color:green;
+    padding:10px 0px 10px 30px;
+    font-weight:bold
+}
+
+.container {
+    display:flex;
+    justify-content:space-evenly;
+    width: auto;
+    margin:'auto';
+    background-color:white
+}
+.deux{
+  display:flex;
+  justify-content:space-between;
+  width: auto;
+}
+
+.bloc {
+    width:450px;
+    padding:30px 0px 7px 0px;
+    line-height:80px
+}
+
+h4 {
+    font-weight:bold
+}
+
