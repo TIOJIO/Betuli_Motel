@@ -54,7 +54,7 @@ const useStyles = makeStyles({
   
   });
 
-export default function Main({}){
+export default function Main({filteredData}){
    
     const imagePath ="https://www.djangui.net/media/mysalary/";
 
