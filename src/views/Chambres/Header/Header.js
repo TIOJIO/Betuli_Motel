@@ -13,7 +13,7 @@ export default function Head(){
 
  <div id='aff' style={{marginTop:'-132px'}}>
 
-      <Typography variant='h5' style={{color:'black',fontSize:'30px',fontWeight:'bold',color:'green'}} >Client</Typography> 
+      <Typography variant='h5' style={{color:'black',fontSize:'30px',fontWeight:'bold',color:'green'}} >Chambres</Typography> 
 
         <Grid container style={{display:'flex',justifyContent:'space-between',marginTop:'40px'}}>
       

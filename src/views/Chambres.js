@@ -6,7 +6,7 @@ import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
-import Teachers from './Teachers/Teachers';
+import Chambres from './Chambres/Chambres';
 import icons from "variables/icons";
 
 function Icons() {
@@ -14,7 +14,7 @@ function Icons() {
     <>
       <PanelHeader size="sm" />
       <div className="content">
-        <Teachers/>
+        <Chambres/>
       </div>
     </>
   );

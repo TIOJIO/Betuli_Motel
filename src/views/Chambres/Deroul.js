@@ -85,7 +85,7 @@ export default function CustomizedMenus({contact,handleDeleteClik,handleEditClic
           <ListItemIcon>
             <InboxIcon fontSize="small" />
           </ListItemIcon>
-              <AlertDelete contact={contact} handleDeleteClik={handleDeleteClik}/>
+              <AlertDelete contact={contact} handleDeleteClik={handleDeleteClik} handleClose={handleClose}/>
         </StyledMenuItem>
       </StyledMenu>
     </div>

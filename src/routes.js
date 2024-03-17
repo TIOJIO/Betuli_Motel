@@ -1,6 +1,6 @@
 
 import Dashboard from "views/Dashboard.js";
-import Teachers from "views/Teachers.js";
+import Chambres from "views/Chambres.js";
 import Students from "views/Students.js";
 import Courses from "views/Courses.js";
 import Attendance from "views/Attendance.js";
@@ -45,18 +45,17 @@ var dashRoutes = [
     layout: "/admin",
   },
   {
+    path: "/chambres",
+    name: "Chambres",
+    icon: "business_badge",
+    component: Chambres,
+    layout: "/admin",
+  },
+  {
     path: "/students",
     name: "students",
     icon: "business_briefcase-24",
     component: Students,
-    layout: "/admin",
-  },
-
-  {
-    path: "/teachers",
-    name: "teachers",
-    icon: "business_badge",
-    component: Teachers,
     layout: "/admin",
   },
 

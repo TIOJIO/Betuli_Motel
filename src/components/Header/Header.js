@@ -24,6 +24,12 @@ const Header = ({isLogin}) => {
     setDrawerOpen(!drawerOpen);
   };
 
+
+ 
+  const handleGoHome = (e) => {
+    e.preventDefault()
+          history.push('Home');
+   }
   
   
   const history=useHistory();
@@ -57,18 +63,21 @@ const Header = ({isLogin}) => {
       <p>.</p>
       <AppBar  sx={{ backgroundColor: 'rgba(255, 255, 255, 0.881)',width:'100%',margin:'auto' }}>
         <Toolbar>
-          <div style={{ flexGrow: 1 }}>
+          <div  onClick={handleGoHome} style={{ flexGrow: 1 }}>
               <p style={{ margin: '0 10px',color:'#003366',fontWeight:'bold',fontSize:'25px' }}> BETULI </p>
               <p style={{ margin: '0 10px',color:'#003366',fontWeight:'bold',fontSize:'15px' }}> Motel </p>
           </div>
           <Hidden smDown>
 
               
-              <p style={{ margin: '0 10px',color:'#003366',fontWeight:'bold',fontSize:'15px' }}> Acceuil </p>
-              <p style={{ margin: '0 10px',color:'#003366',fontWeight:'bold',fontSize:'15px' }}> CHAMBRE </p>
-              <p style={{ margin: '0 10px',color:'#003366',fontWeight:'bold',fontSize:'15px' }}> Plan Tarifère </p>
-              <p style={{ margin: '0 10px',color:'#003366',fontWeight:'bold',fontSize:'15px' }}> Mes Reservations </p>
+              <Button color="primary" style={{borderRadius:'50px'}} variant="outlined" > Acceuil</Button> &nbsp;&nbsp;&nbsp;
+              <Button color="primary" style={{borderRadius:'50px'}} variant="outlined" > Chambre</Button>  &nbsp;&nbsp;&nbsp;
+              <Button color="primary" style={{borderRadius:'50px'}} variant="outlined" > Plan Tarifère</Button> &nbsp;&nbsp;&nbsp;
               
+              { isLogin===true? <Button color="primary" style={{borderRadius:'50px'}} variant="outlined" > Plan Tarifère</Button>
+               :
+              ''}
+                  &nbsp;&nbsp;&nbsp;
               {
                 isLogin===true? <DemoNavbar/>
                 :

@@ -5,7 +5,6 @@ import MailIcon from '@material-ui/icons/Mail';
 import CardMedia from '@mui/material/CardMedia';
 import PhoneIcon from '@mui/icons-material/Phone';
 import AddLocationIcon from '@mui/icons-material/AddLocation';
-import im from '../../assets/img/c1.jpeg';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import SchoolIcon from '@mui/icons-material/School';
 import Rating from '@mui/material/Rating';
@@ -54,23 +53,22 @@ const useStyles = makeStyles({
   
   });
 
-export default function Main({filtredData}){
+export default function Main({selectedData}){
    
-    console.log(filtredData)
+    console.log(selectedData)
 
     const classes = useStyles();
 
     return(
     <Paper style={{width:'100%' }}> 
-        {
-           filtredData.map(item=>(
+ 
                
                <Grid container  className={classes.main}>
      
              <CardMedia
              component="img"
              height="220"
-             image={item.img}
+             image={selectedData.img}
              alt="Paella dish"
            /> 
        
@@ -80,37 +78,72 @@ export default function Main({filtredData}){
              <div className={classes.spanimage}>
                 <span style={{padding:'0px 0px 0px 30px'}}>
                      <img className={classes.img} 
-                        src={item.img}
+                        src={selectedData.img}
                      />
                   </span> 
 
                <br></br>
                <br></br>
 
-               
-             <Grid  style={{paddingLeft:'20px',paddingRight:'20px'}} container spacing={2}>
+               <Grid container spacing={2}>
+              
               <Grid item xs={12} sm container>
                 <Grid item xs container direction="column" spacing={2}>
-                  <h1 style={{fontWeight:'bold',color:'#003366'}}>CHAMBRE : {item.name} </h1>
-                  <p style={{display:'flex',fontWeight:"bold",color:'green',fontSize:"25px"}}> 
-                      Categorie : {item.categorie} 
-                  </p>
+                  <h1>.</h1>
+                  <h1 style={{fontWeight:'bold',color:'#003366'}}>DevteStartup</h1>
+                  <h2>Le train du developpement et de l'inovation techonologique . nous somme une agence digital de developpement de logiciel.</h2>
+                  <Button variant="contained" style={{backgroundColor:"#003366" ,height:'60px',width:'40%'}} disableElevation>
+                      About Us
+                  </Button>
                 </Grid>
                 <Grid item>
-                  <p style={{fontWeight:"bold",color:'green',fontSize:"20px"}}>{item.prix} XAF</p>
-                  <p>< AutoStoriesIcon/> x 5</p>
+                  <p>IMAGE</p>
                 </Grid>
               </Grid>
-            </Grid>  
-               <p>{item.description} </p>
-               <h1>.</h1>
+            </Grid>
+                 
+                  <div style={{paddingLeft:'10px',marginRight:'10px'}}>
+                  <p className={classes.name}>
+                     CHAMBRE : {selectedData.name} 
+                  </p>
 
-             </div>  
+                  <p style={{display:'flex',fontWeight:"bold",color:'green',fontSize:"25px"}}> 
+                      Categorie : {selectedData.categorie} 
+                  </p>
+                  <p style={{display:'flex',fontWeight:"bold",color:'green',fontSize:"20px"}}> 
+                    Prix  {selectedData.prix} XAF
+                  </p>
+
+                 
+                        <p>{selectedData.description} </p>
+   
+                    <p>Autre info</p>
+
+                    <div className={classes.contact}>
+                    <p>Lire le cours </p>
+                    <span style={{fontWeight:'bold',display:'flex',flexWrap:'wrap'}}>
+                         <Avatar style={{ backgroundColor:'rgb(17, 141, 65)'}} >  < AutoStoriesIcon/></Avatar>
+                    </span>
+                 </div>
+  
+               <div className={classes.contact}>
+                    <p>Bon Travail</p>
+                    <span style={{fontWeight:'bold',display:'flex',flexWrap:'wrap'}}>
+                       <Avatar style={{ backgroundColor:'rgb(17, 141, 65)'}} >  < SchoolIcon/></Avatar>
+                    </span>
+                  </div>
+          
+             </div>
+
+             
+             </div>
+              
+
+               
          </div>   
      
       </Grid>
-           ))
-        }
+          
     </Paper>
     )
 }

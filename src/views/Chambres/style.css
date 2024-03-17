@@ -76,7 +76,7 @@ h4 {
     text-decoration:none;
     display:flex;
     float:right;
-     width: 150px;
+     width: auto;
      border-radius:20px;
 }
 

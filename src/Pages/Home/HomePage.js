@@ -1,4 +1,4 @@
-import React from 'react';
+import React , {useState} from 'react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footers';
 import { styled } from '@mui/material/styles';
@@ -16,6 +16,7 @@ import { Box } from '@material-ui/core';
 import ViewAllCategorie from '../../components/ViewAllCategorie/ViewAllCategorie'
 import BestChambre from '../../components/ViewAllCategorie/BestChambre'
 import Welcom from '../../components/Welcom/Welcom'
+import Chat from '../../components/Chat/Chat'
 
 const Img = styled('img')({
   margin: 'auto',
@@ -30,6 +31,8 @@ const HomePage = (props) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  
 
     return (
       <div style={{ backgroundColor:'white' }}>
@@ -84,6 +87,9 @@ const HomePage = (props) => {
           <h1>New Components</h1>
           <h1>New Components</h1>
           <h1>New Components</h1>
+
+           <Chat/>
+           
           <Footer/>
                  
     </div>

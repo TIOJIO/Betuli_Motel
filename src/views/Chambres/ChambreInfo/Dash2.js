@@ -5,8 +5,6 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import BookingDialog from '../../components/Dialog/BookingDialog'
-import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
 const bull = (
   <Box
@@ -17,42 +15,44 @@ const bull = (
   </Box>
 );
 
-export default function BasicCard({filtredData}) {
+export default function BasicCard({selectedData}) {
   return (
     <Card style={{width:'100%',marginTop:'20px' }}>
        
-       {
-        filtredData.map(item=>(
+ 
           <div>
        <CardContent>
-      <p style={{display:'flex',fontWeight:"bold",color:'black',fontSize:"15px"}}> 
-            {item.description} 
+      <p style={{display:'flex',fontWeight:"bold",color:'green',fontSize:"20px"}}> 
+            {selectedData.description} 
          </p>
          <p style={{display:'flex',fontWeight:"bold",color:'green',fontSize:"15px"}}> 
-                  12-20-2023
+                  aaaaa12-20-2023
            </p>
-        <Typography sx={{ fontSize: 20 ,fontWeight:'bold' }} color="text.secondary" gutterBottom>
-             {item.categorie} 
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            autre info
         </Typography>
 
-        <Typography sx={{ fontSize: 20,fontWeight:'bold' }} color="text.secondary" gutterBottom>
-             {item.prix} XAF 
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+           description 
         </Typography>
 
-      
+        <Typography variant="h5" component="div">
+          be{bull}nev{bull}o{bull}lent
+        </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-           < AutoStoriesIcon/> x 5
+          adjective
         </Typography>
-        
+        <Typography variant="body2">
+          well meaning and kindly.
+          <br />
+          {'"a benevolent smile"'}
+        </Typography>
       </CardContent>
       <CardActions>
-             <BookingDialog/> 
-             <BookingDialog/> 
+        
       </CardActions>
        </div>
-        ))
-       }
-
+        
       
     </Card>
   );

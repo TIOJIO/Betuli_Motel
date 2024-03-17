@@ -19,6 +19,7 @@
     "bootstrap": "4.6.0",
     "chart.js": "3.2.1",
     "date-fns": "^2.30.0",
+    "firebase": "^9.22.1",
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.9",
     "jspdf": "^2.5.1",

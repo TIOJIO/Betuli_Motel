@@ -31,16 +31,20 @@ function Sidebar(props) {
   return (
     <div className="sidebar" style={{backgroundColor:'red'}} data-color={props.backgroundColor}>
       <br></br>  
-      <div className="logo">
+      <div style={{textAlign:'center',margin:'auto'}} className="logo">
     
-       <g> <a
+        <a
           className="simple-text logo-normal"
           style={{color:'green', fontWeight:'bold' , fontSize:'30px',textAlign:'center'}}
           target="_blank"
         >
-          APPACADEMIA
-        </a></g>
+          BETULI
+        </a>
+        <div style={{textAlign:'center',margin:'auto' ,width:"70px",backgroundColor:"red"}}>
+        <p style={{color:'black'}}>Motel</p>
+        </div>
       </div>
+
       <div className="sidebar-wrapper" ref={sidebar}>
         <Nav>
           {props.routes.map((prop, key) => {

@@ -24,6 +24,7 @@ import { visuallyHidden } from '@mui/utils';
 import {Avatar } from '@material-ui/core';
 import TrapFocus from '@mui/base/TrapFocus';
 import {nanoid} from  'nanoid';
+import Rating from '@mui/material/Rating';
 import EditData from './EditData';
 import AlertEdit from './AlertEdit';
 import AddData from './AddData';
@@ -34,82 +35,39 @@ import DownloadIcon from '@mui/icons-material/Download'
 import "jspdf-autotable";
 import jsPDF from "jspdf";
 import './style.css';
+import data from '../../Data/ChambreData'
+import ChambreInfo from './ChambreInfo/ChambreInfo'
 
  const App =()=>{
-   const data = [
-     {
-        'id':1,
-        'firstnames':'tiojio junior  ',
-        'lastname':'romain',
-        'phone':  '6 95 91 31 08',
-        'companycode':'123456',
-        'Username':'tiojio',
-        'profile':null,
-        'password':'1234app',
-        'professor':'SIL,CEP',
-        'identifiant':'#2222023',
-        'create':'Administrator',
-
-     },
-     {
-      'id':2,
-      'firstnames':'feujio paul  ',
-      'lastname':'jean',
-      'phone':  '6 99 91 31 08',
-      'companycode':'123456',
-      'Username':'tiojio',
-      'profile':null,
-      'password':'1234app',
-      'professor':'CM2,CEP',
-      'identifiant':'#2222023',
-      'create':'Administrator',
-
-   },
-   {
-    'id':3,
-    'firstnames':'brenda brande  ',
-    'lastname':'love',
-    'phone':  '6 98 54 12 14',
-    'companycode':'123456',
-    'Username':'Grenda',
-    'profile':null,
-    'password':'1234app',
-    'professor':'CE1,CE2',
-    'identifiant':'#2222023',
-    'create':'Administrator',
-
- },
-    
-   ];
+ 
 
    const [contacts , setContacts] = useState(data);
+   const [selectedData , setSelectedData] = useState([]);
    const [addFormData , setAddFormData] = useState({
-    firstnames: '' ,
-    lastname: '' ,
-    phone:  '',
-    companycode:'',
-    Username:'',
-    profile:null,
-    password:'',
-    professor:'CM1,CE2',
-    identifiant:'#2982023',
-    create:'Administrator',
-
+    name :'',
+    img :'',
+    prix :0,
+    categorie :'',
+    start :0,
+    available:true,
+    personn:0,
+    description:'',
+    createdBy:'Administrator',
+    createdDate:''
 
    });
 
    const [editFormData , setEditFormData] = useState({
-    firstnames: '' ,
-    lastname: '' ,
-    phone:  '',
-    companycode:'',
-    Username:'',
-    profile:null,
-    password:'',
-    professor:'CM1,CE2',
-    identifiant:'#2982023',
-    create:'Administrator',
-
+    name :'',
+    img :'',
+    prix :0,
+    categorie :'',
+    start :0,
+    available:true,
+    personn:0,
+    description:'',
+    createdBy:'Administrator',
+    createdDate:''
    });
 
    // Export data to PDF
@@ -153,18 +111,17 @@ import './style.css';
         
 
         const formValues = { 
-
-          firstnames: contact.firstnames ,
-          lastname: contact.lastname ,
-          phone: contact.phone,
-          companycode:contact.companycode,
-          Username:contact.Username,
-          profile:contact.profile,
-          password:contact.password,
-          professor:'CM1,CE2',
-          identifiant:'#2982023',
-          create:'Administrator',
-
+           
+          name :contact.name,
+          img :contact.img,
+          prix :contact.prix,
+          categorie :contact.categorie,
+          start :contact.start,
+          available:contact.available,
+          personn:contact.personn,
+          description:contact.description,
+          createdBy:contact.createdBy,
+          createdDate:contact.createdDate
         }
         setEditFormData(formValues);
     };
@@ -173,6 +130,7 @@ import './style.css';
         event.preventDefault();
         const fieldName= event.target.getAttribute('id');
         const fieldValue = event.target.value;
+
         
         const newFormData ={...editFormData};
         newFormData[fieldName]= fieldValue;
@@ -184,17 +142,17 @@ import './style.css';
     const handleEditFormSubmit = (event) => {
         event.preventDefault();
         const editContact = {
-            id: editContactId,
-            firstnames: editFormData.firstnames,
-            lastname: editFormData.lastname ,
-            phone: editFormData.phone,
-            companycode:editFormData.companycode,
-            Username:editFormData.Username,
-            profile:editFormData.profile,
-            password:editFormData.password,
-            professor:'CM1,CE2',
-            identifiant:'#2982023',
-            create:'Administrator',
+          id: editContactId,
+          name :editFormData.name,
+          img :editFormData.img,
+          prix :editFormData.prix,
+          categorie :editFormData.categorie,
+          start :editFormData.start,
+          available:editFormData.available,
+          personn:editFormData.personn,
+          description:editFormData.description,
+          createdBy:editFormData.createdBy,
+          createdDate:editFormData.createdDate
   
         }
 
@@ -215,17 +173,14 @@ import './style.css';
        const fieldName= event.target.getAttribute('id');
        const fieldValue = event.target.value;
        
-       if(event.target.files && event.target.files[0]){
-        let img =event.target.files[0];
-        setAddFormData({
-          profile: URL.createObjectURL(img)
-      });
-    }
+       
         
        const newFormData ={...addFormData};
        newFormData[fieldName]= fieldValue;
         
        setAddFormData(newFormData);
+
+       console.log(newFormData);
 
    }
 
@@ -233,21 +188,19 @@ import './style.css';
    
    const handleAddFormSubmit = (event) => {
     event.preventDefault();
-
-    const newContact={
+    console.log(addFormData);
+    const newContact={    
         id:nanoid(),
-        firstnames: addFormData.firstnames,
-        lastname: addFormData.lastname ,
-        phone: addFormData.phone,
-        companycode:addFormData.companycode,
-        Username:addFormData.Username,
-        profile:addFormData.profile,
-        password:addFormData.password,
-        professor:'CM1,CE2',
-        identifiant:'#2982023',
-        create:'Administrator',
-
-      
+        name :addFormData.name,
+        img :addFormData.img,
+        prix :addFormData.prix,
+        categorie :addFormData.categorie,
+        start :0,
+        available:addFormData.available,
+        personn:addFormData.personn,
+        description:addFormData.description,
+        createdBy:"Administrator",
+        createdDate:addFormData.createdDate   
     };
 
 
@@ -294,7 +247,17 @@ const handleMouseDownPassword = (event) => {
     if(event.target.files && event.target.files[0]){
         let img =event.target.files[0];
         setAddFormData({
-          profile: URL.createObjectURL(img)
+          img: URL.createObjectURL(img)
+      });
+    }
+  };
+
+  
+  const onImageChangeEdit= (event) => {
+    if(event.target.files && event.target.files[0]){
+        let img =event.target.files[0];
+        setEditFormData({
+          img: URL.createObjectURL(img)
       });
     }
   };
@@ -308,12 +271,13 @@ const handleMouseDownPassword = (event) => {
 
    //delete date
 
-   const handleDeleteClik = (contactId) => {
+   const handleDeleteClik = (contactId,handleCloseDelete) => {
       const newContacts = [...contacts];
       const index = contacts.findIndex((contact)=> contact.id ===contactId);
      
        newContacts.splice(index,1);
        setContacts(newContacts);
+       handleCloseDelete();
    }
 
    // transition
@@ -321,20 +285,28 @@ const handleMouseDownPassword = (event) => {
    const [open, setOpen] = React.useState(false);
    const [edit, setEdit] = React.useState(false);
    const [view, setView] = React.useState(true);
+   const [info, setInfo] = React.useState(false);
 
    const history=useHistory(); 
    const handleOpen = (event) => {
     
       setOpen(true);
       setView(false);
-      history.push('teachers/AddData/#NewTeachers');
+      history.push('chambres/AddData/#NewTeachers');
 
    };
  
-   const handleClose = (event) => {
-     setOpen(false);
-     setView(true);
+   const handleOpenChambreInfo = (items) => {
+     setSelectedData(items);
+     console.log(items);
+     setView(false);
+     setInfo(true);
   };
+
+  const handleCloseChambreInfo = (event) => {
+    setView(true);
+    setInfo(false);
+ };
 
 
   
@@ -551,6 +523,7 @@ const handleMouseDownPassword = (event) => {
    setSelected([]);
  };
 
+
  const handleClick = (event, name) => {
    const selectedIndex = selected.indexOf(name);
    let newSelected = [];
@@ -634,7 +607,7 @@ const handleMouseDownPassword = (event) => {
                values={values}
                handleMouseDownPassword={handleMouseDownPassword}
                handleClickShowPassword={handleClickShowPassword}
-               onImageChange={onImageChange}
+               onImageChangeEdit={onImageChangeEdit}
                handleChange={handleChange}
                editFormData ={editFormData}
                addFormData={addFormData}
@@ -646,6 +619,25 @@ const handleMouseDownPassword = (event) => {
           </Box>
         </TrapFocus>
       )}
+
+      
+  {info && (
+        <TrapFocus edit>
+          <Box tabIndex={-1}  style={{ width:'100%' }} >
+             
+          <br></br>
+
+      
+          <ChambreInfo
+              selectedData={selectedData} 
+              handleCloseChambreInfo={handleCloseChambreInfo}
+          />
+
+            <br />
+          </Box>
+        </TrapFocus>
+ )}
+
 
 
 
@@ -662,126 +654,138 @@ const handleMouseDownPassword = (event) => {
           <Header/>
           <br></br><br></br>
 
-          <span  onClick={ handleOpen }  className='back'> 
-            &nbsp;<Typography className='new'>+ New client </Typography>
+          <span  onClick={ handleOpen }  
+            style={{
+              backgroundColor:'green',
+              cursor:'pointer',
+              marginTop:'-100px',
+              textDecoration:'none',
+              display:"flex",
+              float:"right",
+               width: 'auto',
+               borderRadius:'20px'
+            }}
+           > 
+            &nbsp;<Typography style={{padding:'10px',color:'white',fontWeight:'bold'}}>+Nouvelle Chambres </Typography>
          </span> 
 
          <br></br>
-       <Box sx={{ width: '100%' }}>      
-         <Paper sx={{ width: '100%', mb: 2 }}>
-           <EnhancedTableToolbar numSelected={selected.length} />
-             <TableContainer sx={{ width: 'auto' }}>
-        
-           <Table   aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'} > 
-           <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={contacts.length}
-            />
-                   <TableBody>
-                   {stableSort(contacts, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((contact, index) => {
-                  const isItemSelected = isSelected(contact.firstnames);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                      return(
-                        <Fragment>
-                             { editContactId === contact.id ? (
-                                  <EditData 
-                                  editFormData ={editFormData}
-                                  addFormData={addFormData}
-                                  handleEditFormChange={handleEditFormChange}
-                                  handleCancelClik={handleCancelClik}
-                                  handleEditFormSubmit={handleEditFormSubmit}
-                              />  
-                                
-                             ):(
-                              
-                              <TableRow
-                              hover
-                              onClick={(event) => handleClick(event, contact.firstnames)}
-                              role="checkbox"
-                              aria-checked={isItemSelected}
-                              tabIndex={-1}
-                              key={contact.firstnames}
-                              selected={isItemSelected}
-                            >
-                              <TableCell padding="checkbox">
-                                <Checkbox
-                                  color="success"
-                                  checked={isItemSelected}
-                                  inputProps={{
-                                    'aria-labelledby': labelId,
-                                  }}
-                                />
-                              </TableCell>
-                           
-                              <TableCell
-                                 style={{width:'auto',textAlign:"center",display:'flex',padding:'15px 0px 20px 10px'}}
-                                component="th"
-                                id={labelId}
-                                scope="contact"
-                                padding="none"
-                              >
-                                 <Avatar>  <img style={{width:'100px'}} src={contact.profile}  /> </Avatar> 
-                                <p  style={{fontWeight:"bold",padding:'13px 0px 0px 15px'}}>{contact.firstnames}</p>
-                              </TableCell>
-                              <TableCell  align="right" style={{width:'0px'}}>
-                                    <p style={{padding:'0px 0px 0px -20px'}}>{contact.lastname}</p> 
-                              </TableCell>
-                              <TableCell style={{width:'100px',padding:'15px 0px 0px 80px'}}>
-                                 <p style={{height:'30px',padding:'5px 5px 0px 5px',textAlign:"center",width:'auto',borderRadius:'20px',backgroundColor:'green',color:'white'}}> {contact.professor} </p>
-                              </TableCell>
-                              <TableCell style={{fontWeight:"bold",color:'green',width:'100px',padding:'0px 0px 0px 100px'}}>{contact.identifiant}</TableCell>
-                              <TableCell style={{width:'200px',padding:'0px 0px 0px 150px'}}>{contact.create}</TableCell>
-                              <TableCell align="right">
-                              <Deroul
-                       contact={contact}
-                       handleEditClick={handleEditClick}
-                       handleDeleteClik={handleDeleteClik}
-                       handleEditFormSubmit={handleEditFormSubmit}
-                       editFormData ={editFormData}
-                       handleEditFormChange={handleEditFormChange}
-                       handleCancelClik={handleCancelClik}
-                    />
-                              </TableCell>
-                            </TableRow>
-                             ) 
-                           }
-                                             
-                        </Fragment>
-                        )
-                    }
-                    )
-                  }
+       
 
-             {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-                    </TableBody>
-                   </Table>  
-      
-            </TableContainer>
-            <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={contacts.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-         </Paper>
-     </Box>
+   
+          <Box sx={{ width: '100%' }}>      
+          <Paper sx={{ width: '100%', mb: 2 }}>
+            <EnhancedTableToolbar numSelected={selected.length} />
+              <TableContainer sx={{ width: 'auto' }}>
+         
+            <Table   aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'} > 
+  
+                    <TableBody>
+                    {stableSort(contacts, getComparator(order, orderBy))
+                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                 .map((contact, index) => {
+                   const isItemSelected = isSelected(contact.firstnames);
+                   const labelId = `enhanced-table-checkbox-${index}`;
+                       return(
+                         <Fragment>
+                              { editContactId === contact.id ? (
+                                   <EditData 
+                                   editFormData ={editFormData}
+                                   addFormData={addFormData}
+                                   handleEditFormChange={handleEditFormChange}
+                                   handleCancelClik={handleCancelClik}
+                                   handleEditFormSubmit={handleEditFormSubmit}
+                               />  
+                                 
+                              ):(
+                               
+                               <TableRow
+                               hover
+                               onDoubleClick={ (event) => handleOpenChambreInfo(contact)}
+                               role="checkbox"
+                               aria-checked={isItemSelected}
+                               tabIndex={-1}
+                               key={contact.firstnames}
+                               selected={isItemSelected}
+                             >
+                               <TableCell padding="checkbox">
+                                 <Checkbox
+                                   color="success"
+                                   checked={isItemSelected}
+                                   inputProps={{
+                                     'aria-labelledby': labelId,
+                                   }}
+                                 />
+                               </TableCell>
+                            
+                               <TableCell
+                                  style={{width:'auto',textAlign:"center",display:'flex',padding:'15px 0px 20px 10px'}}
+                                 component="th"
+                                 id={labelId}
+                                 scope="contact"
+                                 padding="none"
+                               >
+                                  <Avatar>  <img style={{width:'100px'}} src={contact.img}  /> </Avatar> 
+                                 <p  style={{fontWeight:"bold",padding:'13px 0px 0px 15px'}}> Chambre {contact.name}</p>
+                               </TableCell>
+                               <TableCell  align="right" style={{width:'0px'}}>
+                                     <p style={{padding:'0px 0px 0px -20px',fontWeight:'bold',color:'green'}}>{contact.categorie}</p> 
+                               </TableCell>
+                               <TableCell style={{width:'100px',padding:'15px 0px 0px 80px'}}>
+                                  <p style={{height:'30px',textAlign:"center",width:'90px',borderRadius:'20px',backgroundColor:'green',color:'white'}}>
+                                     <label style={{padding:'5px'}}>{contact.prix} xaf</label> 
+                                 </p>
+                               </TableCell>
+                               <TableCell style={{fontWeight:"bold",width:'100px',padding:'0px 0px 0px 100px',display:'flex'}}>
+                                    <Rating name="half-rating-read" max={1} defaultValue={2.5} precision={0.5} readOnly /> 
+                                   <p>{contact.start} </p>
+                               </TableCell>
+                               <TableCell style={{width:'200px',padding:'0px 0px 0px 150px'}}>{contact.createdBy}</TableCell>
+                               <TableCell align="right">
+                               <Deroul
+                        contact={contact}
+                        handleEditClick={handleEditClick}
+                        handleDeleteClik={handleDeleteClik}
+                        handleEditFormSubmit={handleEditFormSubmit}
+                        editFormData ={editFormData}
+                        handleEditFormChange={handleEditFormChange}
+                        handleCancelClik={handleCancelClik}
+                     />
+                               </TableCell>
+                             </TableRow>
+                              ) 
+                            }
+                                              
+                         </Fragment>
+                         )
+                     }
+                     )
+                   }
+ 
+              {emptyRows > 0 && (
+                 <TableRow
+                   style={{
+                     height: (dense ? 33 : 53) * emptyRows,
+                   }}
+                 >
+                   <TableCell colSpan={6} />
+                 </TableRow>
+               )}
+                     </TableBody>
+                    </Table>  
+       
+             </TableContainer>
+             <TablePagination
+           rowsPerPageOptions={[5, 10, 25]}
+           component="div"
+           count={contacts.length}
+           rowsPerPage={rowsPerPage}
+           page={page}
+           onPageChange={handleChangePage}
+           onRowsPerPageChange={handleChangeRowsPerPage}
+         />
+          </Paper>
+        </Box>
     </Box>
  </TrapFocus>
       )}

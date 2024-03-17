@@ -4,16 +4,9 @@ import axios from 'axios'
 import {Typography,Button}  from '@material-ui/core';
 import {TextField, Box,Container,Paper} from '@material-ui/core';
 import IconButton from '@mui/material/IconButton';
-import Input from '@mui/material/Input';
-import FilledInput from '@mui/material/FilledInput';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Switch } from '@mui/material';
 import './style.css';
+
 
 
 const AddData = ({values,handleMouseDownPassword,handleClickShowPassword,handleChange,handleAddFormChange,addFormData,handleAddFormSubmit,onImageChange}) => {
@@ -27,46 +20,51 @@ const AddData = ({values,handleMouseDownPassword,handleClickShowPassword,handleC
     <br></br>
  <div className='root'>
     <div className='main'>
-         <div className='texte'>Personal Detailes</div>
+         <div className='texte'> Detailes Sur la chambre</div>
    </div>
 </div>
 <Paper>
   <form >       
      <div className='container'>
         <div className='bloc'>
-            <Typography style={{fontWeight:'bold',}}> First Name *</Typography>
+            <Typography style={{fontWeight:'bold',}}>Nom</Typography>
             <TextField
                onChange={handleAddFormChange}   
-               id="firstnames"  variant="outlined"
+               id="name"  variant="outlined"
                style={{  width: '100%'}}  
-              type="text"   placeholder='First Name...'
+              type="text"   placeholder='nom...'
             />
 
-           <Typography style={{fontWeight:'bold',}}>  Phone </Typography>
+           <Typography style={{fontWeight:'bold',}}>  Prix(XAF) </Typography>
            <TextField
               onChange={handleAddFormChange}
-              id="phone"  variant="outlined"
+              id="prix"  variant="outlined"
               style={{ width: '100%'}}   
-              type="text"    placeholder='Phone...'
+              type="number"    placeholder='prix...'
             />
          </div>  
 
       <div className='bloc'>
-         <Typography style={{fontWeight:'bold',}}>Last Name * </Typography>
+         <Typography style={{fontWeight:'bold',}}>categorie </Typography>
          <TextField
            onChange={handleAddFormChange}
-           id="lastname"  variant="outlined"
+           SelectProps={{native: true,}} 
+           select
+           id="categorie"  variant="outlined"
            style={{  width: '100%'}}  
            type="text"   placeholder='Last Name...'
-          />
-        
+          >
+           <option value='Climatisée'> categorie... </option>
+           <option value='Climatisée'> Climatisée </option>
+           <option value='Climatisée'> Ventillée </option>
+          </TextField>
+          
          <Typography style={{fontWeight:'bold',}}>  photo * </Typography>
         <div style={{marginTop:'30px'}}>
                <Box component="span" sx={{ p: 7,width:'10px', border: '1px dashed grey'}}>
-               <img style={{width:'100px'}} src={addFormData.profile} />
+               <img style={{width:'100px'}} src={addFormData.img} />
                </Box>
-
-               <input className='profil'  type="file" id='image' name="myImage"  onChange={onImageChange} />
+               <input className='profil'  type="file" id='img' name="myImage"  onChange={onImageChange} />
          </div>
       </div>
 
@@ -84,59 +82,44 @@ const AddData = ({values,handleMouseDownPassword,handleClickShowPassword,handleC
 <div>
  <div className='root'>
     <div className='main'>
-         <div className='texte'>Login's Credentials</div>
+         <div className='texte'>Autres Informations</div>
    </div>
 </div>
 <Paper>
   <form >       
      <div className='container'>
         <div className='bloc'>
-            <Typography style={{fontWeight:'bold',}}> Company's Code *</Typography>
+            <Typography style={{fontWeight:'bold',}}>Nombre personne maximum</Typography>
             <TextField
                onChange={handleAddFormChange}   
-               id="companycode"  variant="outlined"
+               id="personn"  variant="outlined"
                style={{  width: '100%'}}  
-              type="text"   placeholder='companys code...'
+              type="number"   placeholder='companys code...'
             />
 
-           <Typography style={{fontWeight:'bold',}}>  Password * </Typography>
- <FormControl sx={{ m: 1, width: '100%' }} variant="outlined">
-  <InputLabel htmlFor="outlined-adornment-password">Password..</InputLabel>
-  <OutlinedInput
-    id="outlined-adornment-password"
-    type={values.showPassword ? 'text' : 'password'}
-    value={values.password}
-    onChange={handleChange('password') }
-    endAdornment={
-      <InputAdornment position="end">
-        <IconButton
-          aria-label="toggle password visibility"
-          onClick={handleClickShowPassword}
-          onMouseDown={handleMouseDownPassword}
-          edge="end"
-        >
-          {values.showPassword ? <VisibilityOff /> : <Visibility />}
-        </IconButton>
-      </InputAdornment>
-    }
-    label="Password"
-  />
-</FormControl>
+           <Typography style={{fontWeight:'bold',}}>Description </Typography>
+               <textarea  onChange={handleAddFormChange}  id='description' style={{width:'100%'}}>
+               </textarea>
 
 
          </div>  
 
       <div className='bloc'>
-         <Typography style={{fontWeight:'bold',}}> Username * </Typography>
+         <Typography style={{fontWeight:'bold',}}>Préference </Typography>
+        
          <TextField
            onChange={handleAddFormChange}
            id="Username"  variant="outlined"
            style={{  width: '100%'}}  
            type="text"   placeholder='Username...'
           />
+
+         <Typography style={{fontWeight:'bold',}}>Disponibilité </Typography>
+         <Switch/>
           
+          <br></br>
           <Button
-          style={{ backgroundColor:'green',width:'100px',color:'white'}}
+          style={{ backgroundColor:'green',width:'150px',height:'40px',color:'white'}}
           type='submit' 
           onClick={() =>handleAddFormSubmit(event) }
 

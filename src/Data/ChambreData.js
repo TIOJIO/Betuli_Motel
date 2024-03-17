@@ -14,6 +14,9 @@ const ChambreData = [
         "categorie":'ventillé',
         "start":4,
         "available":true,
+        "personn":'2',
+        "createdBy":'Administrator',
+        "createdDate":'',
         "description":' Nous vous proposons cette chambre qui est tres confortable a moindre cout . vous avez un pesible repos et il est tres luxeur ' 
     },
     {
@@ -23,6 +26,9 @@ const ChambreData = [
         "prix":10000,
         "categorie":'ventillé',
         "start":1,
+        "personn":'2',
+        "createdBy":'Administrator',
+        "createdDate":'',
         "available":true,
         "description":' Nous vous proposons cette chambre qui est tres confortable a moindre cout . vous avez un pesible repos et il est tres luxeur ' 
     },
@@ -34,7 +40,10 @@ const ChambreData = [
         "categorie":'climatisé',
         "start":4,
         "available":true,
-        "description":' Nous vous proposons cette chambre qui est tres confortable a moindre cout . vous avez un pesible repos et il est tres luxeur ' 
+        "description":' Nous vous proposons cette chambre qui est tres confortable a moindre cout . vous avez un pesible repos et il est tres luxeur ' ,
+        "personn":'2',
+        "createdBy":'Administrator',
+        "createdDate":''
     },
     {
         "id":"4",
@@ -44,6 +53,9 @@ const ChambreData = [
         "categorie":'ventillé',
         "start":4,
         "available":true,
+        "personn":'2',
+        "createdBy":'Administrator',
+        "createdDate":'',
         "description":' Nous vous proposons cette chambre qui est tres confortable a moindre cout . vous avez un pesible repos et il est tres luxeur ' 
     },
     {
@@ -53,7 +65,9 @@ const ChambreData = [
         "prix":12000,
         "categorie":'climatisée',
         "start":4,
-        "available":true,
+        "available":true,"personn":'2',
+        "createdBy":'Administrator',
+        "createdDate":'',
         "description":' Nous vous proposons cette chambre qui est tres confortable a moindre cout . vous avez un pesible repos et il est tres luxeur ' 
     },
     {
@@ -64,6 +78,9 @@ const ChambreData = [
         "categorie":'climatiseé',
         "start":4,
         "available":true,
+        "personn":'2',
+        "createdBy":'Administrator',
+        "createdDate":'',
         "description":' Nous vous proposons cette chambre qui est tres confortable a moindre cout . vous avez un pesible repos et il est tres luxeur ' 
     }
 ]

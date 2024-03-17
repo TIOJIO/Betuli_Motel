@@ -19,13 +19,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
+    height: '95vh',
     backgroundColor: 'rgba(181, 184, 183, 0.852)',
   },
   paper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
     padding: theme.spacing(4),
     width: '35%',
     [theme.breakpoints.down('sm')]: {
@@ -35,7 +34,7 @@ const useStyles = makeStyles(theme => ({
   textField: {
     width: '100%',
     margin: theme.spacing(1, 0),
-    padding:'15px 0px 15px 0px'
+    padding:'10px 0px 10px 0px'
   },
   btns:{
     backgroundColor:"green",
@@ -88,21 +87,23 @@ function LoginPage() {
     <div className={classes.root}>
       <HeaderAccount/>
       <Paper className={classes.paper}>
-          <div style={{textAlign:"center",display:"flex"}}>
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <div style={{textAlign:"center"}}>
+              <Avatar style={{margin:'auto',textAlign:'center'}} sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
               </Avatar>
+              <b  style={{padding:'20px 0px 20px 0px',fontSize:'20px',fontFamily: "Times New Roman, Times, serif",color:"#003366",textAlign:"center"}}> Se Connecter</b> 
           </div>
-          <b  style={{padding:'20px 0px 20px 0px',fontSize:'20px',fontFamily: "Times New Roman, Times, serif",color:"#003366",textAlign:"center"}}> Se Connecter</b> 
 
-        <TextField 
+        <label>username</label>
+        <input 
           className={classes.textField}
           onChange={(e) =>setUsername(e.target.value)}
           id="username..."
           type="text"  placeholder="Username..."
         />
       
-        <TextField 
+         <label>email</label>
+        <input 
           className={classes.textField}
           onChange={(e) =>setPassword(e.target.value)}
           id="password"
