@@ -5,11 +5,13 @@ import {Typography,Button}  from '@material-ui/core';
 import {TextField, Box,Container,Paper} from '@material-ui/core';
 import IconButton from '@mui/material/IconButton';
 import { Switch } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
 import './style.css';
 
 
 
-const AddData = ({values,handleMouseDownPassword,handleClickShowPassword,handleChange,handleAddFormChange,addFormData,handleAddFormSubmit,onImageChange}) => {
+const AddData = ({values,handleMouseDownPassword,handleClickShowPassword,handleChange,handleAddFormChange,addFormData,handleAddFormSubmits,onImageChange}) => {
   return (
 <div style={{marginTop:'-180px'}} id='NewTeachers'>
 
@@ -27,7 +29,18 @@ const AddData = ({values,handleMouseDownPassword,handleClickShowPassword,handleC
   <form >       
      <div className='container'>
         <div className='bloc'>
-            <Typography style={{fontWeight:'bold',}}>Nom</Typography>
+                <Typography style={{fontWeight:'bold',}}>  photo * </Typography>
+                <div style={{padding:'5px 55px 0px 0px'}}>
+                  <div component="span" style={{width:'300px',height:'200px', border: '1px dashed grey',borderRadius:'10px',textAlign:'center',alignItems:'center'}}>
+                  <img style={{width:'100%' ,height:'195px',borderRadius:'10px'}} src={addFormData.img} />
+                  </div>
+                  <input style={{color:'white' ,padding:'10px 0px 0px 60px'}}   type="file" id='img' name="myImage"  onChange={onImageChange} />
+               </div>
+
+         </div>  
+
+      <div className='bloc'>
+      <Typography style={{fontWeight:'bold',}}>Nom</Typography>
             <TextField
                onChange={handleAddFormChange}   
                id="name"  variant="outlined"
@@ -35,16 +48,6 @@ const AddData = ({values,handleMouseDownPassword,handleClickShowPassword,handleC
               type="text"   placeholder='nom...'
             />
 
-           <Typography style={{fontWeight:'bold',}}>  Prix(XAF) </Typography>
-           <TextField
-              onChange={handleAddFormChange}
-              id="prix"  variant="outlined"
-              style={{ width: '100%'}}   
-              type="number"    placeholder='prix...'
-            />
-         </div>  
-
-      <div className='bloc'>
          <Typography style={{fontWeight:'bold',}}>categorie </Typography>
          <TextField
            onChange={handleAddFormChange}
@@ -59,13 +62,15 @@ const AddData = ({values,handleMouseDownPassword,handleClickShowPassword,handleC
            <option value='Climatisée'> Ventillée </option>
           </TextField>
           
-         <Typography style={{fontWeight:'bold',}}>  photo * </Typography>
-        <div style={{marginTop:'30px'}}>
-               <Box component="span" sx={{ p: 7,width:'10px', border: '1px dashed grey'}}>
-               <img style={{width:'100px'}} src={addFormData.img} />
-               </Box>
-               <input className='profil'  type="file" id='img' name="myImage"  onChange={onImageChange} />
-         </div>
+
+          <Typography style={{fontWeight:'bold',}}>  Prix(XAF) </Typography>
+           <TextField
+              onChange={handleAddFormChange}
+              id="prix"  variant="outlined"
+              style={{ width: '100%'}}   
+              type="number"    placeholder='prix...'
+            />
+         
       </div>
 
      < div style={{width:'100px'}}>
@@ -115,17 +120,27 @@ const AddData = ({values,handleMouseDownPassword,handleClickShowPassword,handleC
           />
 
          <Typography style={{fontWeight:'bold',}}>Disponibilité </Typography>
-         <Switch/>
+           <div style={{display:'flex'}}>
+              <div>
+                 <input value="checked" type='checkbox'/>
+                 <label>Disponible</label>
+              </div>
+
+              <div>
+                 <input type='checkbox'/>
+                 <label>Non disponible</label>
+              </div>
+           </div>
           
           <br></br>
           <Button
-          style={{ backgroundColor:'green',width:'150px',height:'40px',color:'white'}}
+          style={{ backgroundColor:'green',width:'170px',height:'50px',color:'white'}}
           type='submit' 
-          onClick={() =>handleAddFormSubmit(event) }
-
+          onClick={(event) =>handleAddFormSubmits(event) }
           > 
-              SAVE
+              ENREGISTRER
           </Button> 
+          
       
       </div>
 

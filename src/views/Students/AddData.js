@@ -21,7 +21,7 @@ const AddData = ({handleAddFormChange,addFormData,handleAddFormSubmit,onImageCha
                <Typography style={{fontWeight:'bold',}}> Photo *</Typography>
                  <div style={{padding:'60px 50px 0px 0px'}}>
                    <Box component="span" sx={{ p: 7,width:'10px', border: '1px dashed grey'}}>
-                   <img style={{width:'50px'}} src={addFormData.profile}  />
+                   <img style={{width:'100px'}} src={addFormData.profile}  />
                    </Box>
                    <input className='profil1'  type="file"  id='image'  name="myImage"  onChange={onImageChange} />
                   </div>

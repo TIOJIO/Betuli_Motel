@@ -1,4 +1,4 @@
-import React , {useState, Fragment} from 'react';
+import React , {useState,useEffect, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -15,37 +15,59 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
+import Favorite from '@mui/icons-material/Favorite'
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import {Avatar } from '@material-ui/core';
+import {Avatar ,Grid } from '@material-ui/core';
 import TrapFocus from '@mui/base/TrapFocus';
 import {nanoid} from  'nanoid';
 import Rating from '@mui/material/Rating';
 import EditData from './EditData';
-import AlertEdit from './AlertEdit';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import AddData from './AddData';
 import Deroul from './Deroul';
 import Header from  './Header/Header';
 import {useHistory} from 'react-router-dom';
 import DownloadIcon from '@mui/icons-material/Download'
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Backdrop from '@mui/material/Backdrop';
 import "jspdf-autotable";
+import Slide from "@mui/material/Slide";
+import Load from '../../assets/img/loading2.gif'
 import jsPDF from "jspdf";
 import './style.css';
+import defautlImage from '../../assets/img/defaultImage.png'
 import data from '../../Data/ChambreData'
 import ChambreInfo from './ChambreInfo/ChambreInfo'
+import { collection,getStorage,ref,getDownloadURL,uploadBytesResumable , addDoc ,setDoc, doc, query, orderBy, onSnapshot, QuerySnapshot, deleteDoc} from 'firebase/firestore';
+import { db } from '../../Firebase/Config';
+
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
  const App =()=>{
- 
 
-   const [contacts , setContacts] = useState(data);
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+  const [openSnakBar, setOpenSnakBar] = React.useState(false);
+  const [openLoading, setOpenLoading] = React.useState(false);
+
+   const [contacts , setContacts] = useState([]);
    const [selectedData , setSelectedData] = useState([]);
    const [addFormData , setAddFormData] = useState({
     name :'',
-    img :'',
+    img :defautlImage,
     prix :0,
     categorie :'',
     start :0,
@@ -69,6 +91,50 @@ import ChambreInfo from './ChambreInfo/ChambreInfo'
     createdBy:'Administrator',
     createdDate:''
    });
+
+   useEffect(()=>{
+    handleGetChambre();
+   },[])
+
+   const handleGetChambre = () =>{
+
+    const storedData = JSON.parse(localStorage.getItem('chambres')) || [];
+    if (storedData.length===0) {
+       console.log('pas de donne')
+    } else {
+       setContacts(storedData);
+       console.log('donner trouver')
+    }
+
+    const collectionRef = collection(db,'Chanbres');
+    const q= query(collectionRef);
+    const unsuscribe = onSnapshot(q, querySnapshot =>{
+            const items =  querySnapshot.docs.map(doc  =>({
+                name :doc.data().name,
+                img :doc.data().img,
+                prix :doc.data().prix,
+                categorie :doc.data().categorie,
+                start :doc.data().start,
+                available:doc.data().available,
+                personn:doc.data().personn,
+                description:doc.data().description,
+                createdBy:doc.data().createdBy,
+                createdDate:doc.data().createdDate
+               }))
+                console.log(items);
+                console.log(items.length);
+
+                if(items.length === 0){
+                  console.log("pas de nouvelle donné");
+                }else{
+                  localStorage.setItem("chambres", JSON.stringify(items));
+                   //setContacts(items);
+                }
+                
+                
+ })     
+     return ;
+   }
 
    // Export data to PDF
 
@@ -186,39 +252,43 @@ import ChambreInfo from './ChambreInfo/ChambreInfo'
 
 // submit new data
    
-   const handleAddFormSubmit = (event) => {
-    event.preventDefault();
-    console.log(addFormData);
-    const newContact={    
-        id:nanoid(),
-        name :addFormData.name,
-        img :addFormData.img,
-        prix :addFormData.prix,
-        categorie :addFormData.categorie,
-        start :0,
-        available:addFormData.available,
-        personn:addFormData.personn,
-        description:addFormData.description,
-        createdBy:"Administrator",
-        createdDate:addFormData.createdDate   
-    };
+   const handleAddFormSubmits =  (event) => {
+        event.preventDefault();
+        setOpenLoading(true);
 
+        const id=Date.now().toString();
+        console.log(Date.now().toString());
 
-    const newContacts = [...contacts, newContact];
-    setContacts(newContacts);
-    
-    history.push('teachers/Header/Header/#aff');
-    setOpen(false);
-    setView(true);
-    
-    console.log(newContacts);
-    console.log(values);
-    
-
+        setDoc(doc(db, "Chanbres", id), {
+          id:id,
+          name :addFormData.name,
+          img :addFormData.img,
+          prix :addFormData.prix,
+          categorie :addFormData.categorie,
+          start :0,
+          available:true,
+          personn:addFormData.personn,
+          description:addFormData.description,
+          createdBy:"Administrator",
+          createdDate:'02-05-2023'
+        }).then(()=>{
+             console.log('succesful');
+             handleGetChambre()
+             setOpenLoading(false);
+             setOpen(false);
+             setView(true);
+              
+        }).catch((error)=>{
+            console.log('erreur :'+error);
+            setOpenLoading(false);
+        });
+         
    } 
 
    // manage password
-
+ const handleClose =()=>{
+  setOpenSnakBar(false)
+ }
    
 const [values, setValues] = React.useState({
   password: '',
@@ -280,6 +350,11 @@ const handleMouseDownPassword = (event) => {
        handleCloseDelete();
    }
 
+
+   const handleCloseLoading = () => {
+    setOpenLoading(false);
+  };
+
    // transition
 
    const [open, setOpen] = React.useState(false);
@@ -292,7 +367,7 @@ const handleMouseDownPassword = (event) => {
     
       setOpen(true);
       setView(false);
-      history.push('chambres/AddData/#NewTeachers');
+      //history.push('chambres/AddData/#NewTeachers');
 
    };
  
@@ -583,13 +658,42 @@ const handleMouseDownPassword = (event) => {
               values={values}
             onImageChange={onImageChange}
               handleAddFormChange={handleAddFormChange}
-              handleAddFormSubmit={handleAddFormSubmit}
+              handleAddFormSubmits={handleAddFormSubmits}
              />
-          
-
-         
+        
 
             <br />
+
+            <Dialog
+        open={openLoading}
+        TransitionComponent={Transition}
+        onClose={handleCloseLoading}
+        maxWidth="xs"
+        fullWidth="false"
+        aria-labelledby="draggable-dialog-title"
+      >
+        <DialogContent style={{ textAlign: "center" }}>
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "80%",
+            }}
+          >
+            <img src={Load} width={80} height={50} />
+            <p
+              style={{
+                marginTop: "10px",
+                cursor: "move",
+                color: "green",
+                fontWeight: "bold",
+              }}
+            >
+              Enregistremet en cour...
+            </p>
+          </span>
+        </DialogContent>
+      </Dialog>
           </Box>
         </TrapFocus>
       )}
@@ -737,7 +841,7 @@ const handleMouseDownPassword = (event) => {
                                  </p>
                                </TableCell>
                                <TableCell style={{fontWeight:"bold",width:'100px',padding:'0px 0px 0px 100px',display:'flex'}}>
-                                    <Rating name="half-rating-read" max={1} defaultValue={2.5} precision={0.5} readOnly /> 
+                                    <Favorite style={{color:'yellow'}} /> 
                                    <p>{contact.start} </p>
                                </TableCell>
                                <TableCell style={{width:'200px',padding:'0px 0px 0px 150px'}}>{contact.createdBy}</TableCell>
@@ -786,7 +890,27 @@ const handleMouseDownPassword = (event) => {
          />
           </Paper>
         </Box>
+
+        <Snackbar
+          open={openSnakBar} 
+          autoHideDuration={5000} 
+          onClose={handleClose}
+          key={'bottom' + 'right'}
+        >
+        <Alert
+           onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          Nouvelle Chambre créer avec succèss!
+        </Alert>
+      </Snackbar>
+
+       
+
     </Box>
+
  </TrapFocus>
       )}
 

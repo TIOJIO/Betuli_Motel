@@ -13,8 +13,11 @@ import Avatar from '@mui/material/Avatar';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { initializeApp } from 'firebase/app';
+import { collection,getStorage,ref,getDownloadURL,uploadBytesResumable , addDoc ,setDoc, doc, query, orderBy, onSnapshot, QuerySnapshot, deleteDoc} from 'firebase/firestore';
+import { db } from '../../Firebase/Config';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDE0ExiiNIjYis-EamnnSbiLK7-Uvn7Lng",
@@ -74,12 +77,14 @@ const useStyles = makeStyles(theme => ({
 
 
 function LoginPage() {
+  const [openBackdrop, setOpenBackdrop] = React.useState(false);
   const [open, setOpen] = React.useState(false);
     const history=useHistory();
     const [email , setEmail]=useState("");
     const [username , setUsername]=useState("");
     const [password , setPassword]=useState("");
-
+    const [numero , setNumero]=useState(0);
+ 
 
 const handleClose = () => {
       setOpen(false);
@@ -87,7 +92,7 @@ const handleClose = () => {
 
 
 const handleSignUp = async () => {
-     setOpen(true);
+    setOpenBackdrop(true);
     try {
       if (email=='' || password=='') {
         console.log("veillez remplir toute les information")
@@ -97,18 +102,52 @@ const handleSignUp = async () => {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         console.log('Utilisateur enregistré avec succès:', user.uid);
-        setOpen(false);
+        handleSaveUser(username,numero,password,email);
         return user;
       }
       
     } catch (error) {
-      setOpen(false);
+      setOpenBackdrop(false);
       console.error('Erreur lors de l\'enregistrement de l\'utilisateur:', error);
       throw error;
     }
   };
 
-     
+  const handleSaveUser= async () =>{
+
+        const id=Date.now().toString();  
+        setDoc(doc(db, "Utilisateurs", id), {
+          username: username,
+          email:email ,
+          password: password,
+          phone: numero,
+          isAdmin: false,
+        }).then(()=>{
+             //setLoading(false);
+             const userInfo={
+              'username':username,
+              'email':email,
+              'password':password,
+              'numero':numero,
+              'isLogin':true,
+            }
+  
+              localStorage.setItem("userInfo", JSON.stringify(userInfo));
+             console.log('succesful');
+             setOpenBackdrop(false);
+             setOpen(true)
+ 
+        }).catch((error)=>{
+            console.log(error)
+        });
+    
+         setUsername('');
+         setEmail('');
+         setPassword('');
+         setNumero('');
+
+  }
+  
 
   const classes = useStyles();
   return (
@@ -139,6 +178,15 @@ const handleSignUp = async () => {
           onChange={(e) =>setEmail(e.target.value)}
           id="email..."
           type="text"   placeholder="Email..."
+          variant="outlined"
+        />
+
+       <p>Numero</p>
+        <input 
+          className={classes.textField}
+          onChange={(e) =>setNumero(e.target.value)}
+          id="numero..."
+          type="number"   placeholder="Numero..."
           variant="outlined"
         />
          
@@ -182,151 +230,30 @@ const handleSignUp = async () => {
 
         <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
+        open={openBackdrop}
         onClick={handleClose}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
+
+      <Snackbar
+          open={open} 
+          autoHideDuration={7000} 
+          onClose={handleClose}
+          key={'bottom' + 'right'}
+        >
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          Utilisateur créer avec succèss!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
 
 export default LoginPage;
 
-
-/*
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme();
-
-export default function SignUp() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
-  );
-}
-
-*/

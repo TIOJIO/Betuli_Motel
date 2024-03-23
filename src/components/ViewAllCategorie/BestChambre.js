@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardActions, Button, Slide } from '@mui/material';
-import ChambreData from '../../Data/ChambreData'
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
@@ -13,16 +12,17 @@ import ArrowBackIos from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 
-const Carousel = () => {
+
+const Carousel = ({contacts}) => {
 
   const [index, setIndex] = useState(0);
 
   const nextSlide = () => {
-    setIndex((prevIndex) => (prevIndex + 1) % ChambreData.length);
+    setIndex((prevIndex) => (prevIndex + 1) % contacts.length);
   };
 
   const prevSlide = () => {
-    setIndex((prevIndex) => (prevIndex - 1 + ChambreData.length) % ChambreData.length);
+    setIndex((prevIndex) => (prevIndex - 1 + contacts.length) % contacts.length);
   };
 
   const theme = useTheme();
@@ -38,16 +38,16 @@ const Carousel = () => {
         <CardMedia
       component="img"
       sx={{ width: 500, height:'auto' }}
-      image={ChambreData[index].img}
+      image={contacts[index].img}
       alt="Live from space album cover"
     />
     <Box sx={{ display: 'flex', flexDirection: 'column' ,width:'50%'}}>
       <CardContent sx={{ flex: '1 0 auto' }}>
         <Typography component="div" variant="h5">
-            {ChambreData[index].name}
+            {contacts[index].name}
         </Typography>
         <Typography variant="subtitle1" color="text.secondary" component="div">
-             {ChambreData[index].description}
+             {contacts[index].description}
         </Typography>
       </CardContent>
       <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>

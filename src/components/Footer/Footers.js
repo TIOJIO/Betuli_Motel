@@ -32,7 +32,7 @@ const Footer = () => {
   const classes = useStyles();
 
   return (
-    <Paper className={classes.root} square>
+    <Paper className={classes.root} style={{backgroundColor:'#003366'}} square>
       <Grid container spacing={3}>
         {/* Premier bloc avec le logo et du texte */}
         <Grid item xs={12} sm={6} md={3}>

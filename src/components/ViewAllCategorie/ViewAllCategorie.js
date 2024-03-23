@@ -1,5 +1,5 @@
 
-import * as React from 'react';
+import React , {useEffect , useState} from 'react';
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { useTheme } from '@mui/material/styles';
@@ -8,12 +8,15 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import ChambreData from '../../Data/ChambreData'
 import CardChambre from '../../components/Card/CardChambre'
 import { Grid } from '@material-ui/core';
 
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
+
+
+ 
 
   return (
     <div
@@ -45,9 +48,11 @@ function a11yProps(index) {
   };
 }
 
-export default function FullWidthTabs() {
+export default function FullWidthTabs({contacts}) {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
+
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -57,6 +62,10 @@ export default function FullWidthTabs() {
     setValue(index);
   };
 
+ 
+
+
+  
   return (
     <Box sx={{ bgcolor: 'background.paper', width: '100%' ,margin:'auto'}}>
          <span style={{textAlign:'center'}}>
@@ -86,7 +95,7 @@ export default function FullWidthTabs() {
             <Grid sx={{ flexGrow: 1 }} style={{width:"100%" ,textAlign:'center',alignItems:'center'}} container spacing={2}>
             <Grid item xs={12}>
                 <Grid container justifyContent="center" spacing={2}>
-                {ChambreData.map((items) => (
+                {contacts.map((items) => (
                     <Grid key={items.id} item>
                     <CardChambre items={items}/>
                     </Grid>
@@ -99,7 +108,7 @@ export default function FullWidthTabs() {
         <Grid sx={{ flexGrow: 1 }} style={{width:"100%" ,textAlign:'center',alignItems:'center'}} container spacing={2}>
       <Grid item xs={12}>
         <Grid container justifyContent="center" spacing={2}>
-          {ChambreData.map((items) => (
+          {contacts.map((items) => (
             <Grid key={items.id} item>
                <CardChambre items={items}/>
             </Grid>

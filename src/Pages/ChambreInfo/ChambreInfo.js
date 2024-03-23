@@ -1,4 +1,4 @@
-import React , {useState} from 'react';
+import React , {useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography,Grid,Avatar,Paper } from '@material-ui/core';
 import MailIcon from '@material-ui/icons/Mail';
@@ -40,11 +40,25 @@ import Dash2 from './Dash2'
 
 export default function Main({}){
 
+  const [contacts , setContacts] = useState([]);
+
+  useEffect(()=>{
+    const storedData = JSON.parse(localStorage.getItem('chambres')) || [];
+    if (storedData.length===0) {
+       console.log('pas de donne');
+    } else {
+       setContacts(storedData);
+       console.log('donner trouver')
+    }
+    
+   },[])
+
   let {id} = useParams();
-
-  const filtredData = ChambreData.filter(item=>item.id===id.toString());
-
   console.log(id)
+  console.log(contacts)
+  const filtredData = contacts.filter(item=>item.name===id);
+
+  
 
 
     const classes = useStyles();

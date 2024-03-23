@@ -38,6 +38,11 @@ const Header = ({isLogin}) => {
           history.push('signin');
    }
 
+   const handleHeaderLink = (e,item)=>{
+        e.preventDefault()
+        history.push(item);
+   }
+
    const handleLogIn = (e) => {
     e.preventDefault()
           history.push('login');
@@ -74,7 +79,7 @@ const Header = ({isLogin}) => {
               <Button color="primary" style={{borderRadius:'50px'}} variant="outlined" > Chambre</Button>  &nbsp;&nbsp;&nbsp;
               <Button color="primary" style={{borderRadius:'50px'}} variant="outlined" > Plan Tarifère</Button> &nbsp;&nbsp;&nbsp;
               
-              { isLogin===true? <Button color="primary" style={{borderRadius:'50px'}} variant="outlined" > Plan Tarifère</Button>
+              { isLogin===true? <Button color="primary" onClick={(event)=>handleHeaderLink(event,'reservations')} style={{borderRadius:'50px'}} variant="outlined" > Mes Reservations</Button>
                :
               ''}
                   &nbsp;&nbsp;&nbsp;

@@ -8,6 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid } from '@mui/material';
+import {PaymentOperation, RandomGenerator} from '@hachther/mesomb';
 
 const useStyles = makeStyles(theme => ({
   textField: {
@@ -54,10 +55,16 @@ export default function AlertDialogSlide() {
     setOpen(true);
   };
 
-  const handleSubmit = () =>{
-     console.log(startDate);
-     console.log(endDate);
-     console.log(person);
+  const handleSubmit =  async() =>{
+    const url = 'https://mesomb.hachther.com/en/web/payment/?app=b5fa00c709930c9a7e093ab2a49b251023a919a1&action=refill';
+
+    // Options pour le popup
+    const options = 'width=600,height=400';
+
+    // Ouvrir la page dans un popup
+    window.open(url, '_blank', options);
+     
+     
   }
 
   const handleClose = () => {

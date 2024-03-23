@@ -7,12 +7,29 @@ import { Grid,Button,Typography} from '@material-ui/core';
 import logo from './logo.png';
 import { Link } from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
-import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Avatar from '@mui/material/Avatar';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import Backdrop from '@mui/material/Backdrop';
 import HeaderAccount from '../../components/Header/HeaderAccount'
+import { initializeApp } from 'firebase/app';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
+const firebaseConfig = {
+  apiKey: "AIzaSyDE0ExiiNIjYis-EamnnSbiLK7-Uvn7Lng",
+  authDomain: "heaven-7bc01.firebaseapp.com",
+  projectId: "heaven-7bc01",
+  storageBucket: "heaven-7bc01.appspot.com",
+  messagingSenderId: "582576265146",
+  appId: "1:582576265146:web:91a2e998868a05827eef83"
+};
+// Initialiser l'application Firebase
+const app = initializeApp(firebaseConfig);
+
+// Obtenir l'instance de l'authentification Firebase
+const auth = getAuth(app);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,21 +77,43 @@ function LoginPage() {
     const [email , setEmail]=useState("");
     const [username , setUsername]=useState("");
     const [password , setPassword]=useState("");
-    const [open, setOpen] = useState(false);
+    const [openBackdrop, setOpenBackdrop] = useState(false);
+    const [open, setOpen] = React.useState(false);
 
-   const handleSubmit = (e) => {
+
+   const handleSubmit = async (e) => {
       e.preventDefault()
-      setOpen(true);
-      if(username=='admin' && password=='admin'){
-            history.push('admin/paiement');
-            setOpen(false);
+      setOpenBackdrop(true);
+      try {
+        if (email==null || password==null) {
+          console.log('veillez remplir tout les champs !')
+ 
+        } else {
+         const userCredential = await signInWithEmailAndPassword(auth, email, password);
+         const user = userCredential.user;
+         console.log('Utilisateur connecté avec succès:', user.uid);
+         setOpenBackdrop(false);
+         setOpen(true)
+         if(username=='admin' && password=='admin'){
+             history.push('admin/paiement');
+          }
 
-      }else{
-        setOpen(false);
-        alert('Please Check inforamtion and try again!!')
+          const userInfo={
+            'username':username,
+            'email':email,
+            'password':password,
+            'isLogin':true,
+          }
 
+          await  localStorage.setItem("userInfo", JSON.stringify(userInfo));
+        }
+       return user;
+      } catch (error) {
+        console.error('Erreur lors de la connexion de l\'utilisateur:', error);
+        throw error;
       }
-      console.log(email+' '+username+' '+password)
+
+      
      
   
 }
@@ -94,15 +133,15 @@ function LoginPage() {
               <b  style={{padding:'20px 0px 20px 0px',fontSize:'20px',fontFamily: "Times New Roman, Times, serif",color:"#003366",textAlign:"center"}}> Se Connecter</b> 
           </div>
 
-        <label>username</label>
+        <label>email</label>
         <input 
           className={classes.textField}
-          onChange={(e) =>setUsername(e.target.value)}
+          onChange={(e) =>setEmail(e.target.value)}
           id="username..."
-          type="text"  placeholder="Username..."
+          type="text"  placeholder="email..."
         />
       
-         <label>email</label>
+         <label>Password</label>
         <input 
           className={classes.textField}
           onChange={(e) =>setPassword(e.target.value)}
@@ -115,12 +154,27 @@ function LoginPage() {
 
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
+        open={openBackdrop}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
 
     </div>
+
+      <Snackbar
+          open={open} 
+          autoHideDuration={7000} 
+          key={'bottom' + 'right'}
+        >
+        <Alert
+          
+          severity="success"
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          Utilisateur Connecté succèss!
+        </Alert>
+      </Snackbar>
 
 
     <Typography variant="body2" color="text.secondary" align="center" >

@@ -7,13 +7,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import c1 from '../../assets/img/c1.jpeg'
 import {useHistory} from 'react-router-dom';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
+
 
 export default function MediaCard({items}) {
 
   const history=useHistory();
   const handleChambreInfo = (e) => {
     e.preventDefault()
-          history.push('chambreinfo/'+items.id);
+          history.push('chambreinfo/'+items.name);
    }
   return (
     <Card onClick={handleChambreInfo} sx={{ maxWidth: 345 }}>
@@ -33,6 +35,7 @@ export default function MediaCard({items}) {
       <CardActions>
         <Button size="small">Share</Button>
         <Button size="small">Learn More</Button>
+        <FavoriteBorder style={{color:'yellow'}}/>
       </CardActions>
     </Card>
   );

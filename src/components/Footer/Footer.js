@@ -10,7 +10,7 @@ function Footer(props) {
       <Container fluid={props.fluid ? true : false}>
        
         <div className="copyright">
-          &copy; {1900 + new Date().getYear()}, All Right Reserved to AppFabrik
+          &copy; {1900 + new Date().getYear()}, All Right Reserved to BeTULI
         </div>
       </Container>
     </footer>
