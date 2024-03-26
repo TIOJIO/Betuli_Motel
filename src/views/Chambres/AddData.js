@@ -11,7 +11,7 @@ import './style.css';
 
 
 
-const AddData = ({values,handleMouseDownPassword,handleClickShowPassword,handleChange,handleAddFormChange,addFormData,handleAddFormSubmits,onImageChange}) => {
+const AddData = ({viewImage,handleMouseDownPassword,handleClickShowPassword,handleChange,handleAddFormChange,addFormData,handleAddFormSubmits,onImageChange}) => {
   return (
 <div style={{marginTop:'-180px'}} id='NewTeachers'>
 
@@ -32,7 +32,7 @@ const AddData = ({values,handleMouseDownPassword,handleClickShowPassword,handleC
                 <Typography style={{fontWeight:'bold',}}>  photo * </Typography>
                 <div style={{padding:'5px 55px 0px 0px'}}>
                   <div component="span" style={{width:'300px',height:'200px', border: '1px dashed grey',borderRadius:'10px',textAlign:'center',alignItems:'center'}}>
-                  <img style={{width:'100%' ,height:'195px',borderRadius:'10px'}} src={addFormData.img} />
+                  <img style={{width:'100%' ,height:'195px',borderRadius:'10px'}} src={viewImage} />
                   </div>
                   <input style={{color:'white' ,padding:'10px 0px 0px 60px'}}   type="file" id='img' name="myImage"  onChange={onImageChange} />
                </div>

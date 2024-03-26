@@ -48,8 +48,11 @@ import './style.css';
 import defautlImage from '../../assets/img/defaultImage.png'
 import data from '../../Data/ChambreData'
 import ChambreInfo from './ChambreInfo/ChambreInfo'
-import { collection,getStorage,ref,getDownloadURL,uploadBytesResumable , addDoc ,setDoc, doc, query, orderBy, onSnapshot, QuerySnapshot, deleteDoc} from 'firebase/firestore';
+import { collection,getStorage,uploadBytesResumable , addDoc ,setDoc, doc, query, orderBy, onSnapshot, QuerySnapshot, deleteDoc} from 'firebase/firestore';
+import { getDownloadURL, listAll, ref,uploadBytes } from "firebase/storage";
 import { db } from '../../Firebase/Config';
+import { Upload } from '../../Firebase/Upload';
+import { v4 } from 'uuid';
 
 
 
@@ -62,8 +65,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   const [openBackdrop, setOpenBackdrop] = useState(false);
   const [openSnakBar, setOpenSnakBar] = React.useState(false);
   const [openLoading, setOpenLoading] = React.useState(false);
+  const [viewImage,setViewImage] = useState(defautlImage);
 
    const [contacts , setContacts] = useState([]);
+   const [imageUrl , setImageUrl] = useState('');
    const [selectedData , setSelectedData] = useState([]);
    const [addFormData , setAddFormData] = useState({
     name :'',
@@ -94,7 +99,19 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
    useEffect(()=>{
     handleGetChambre();
+    //handleGetImage()
    },[])
+
+  /* const handleGetImage = () =>{
+     listAll(ref(Upload,"images/chambres")).then(imgs=>{
+       imgs.items.forEach(val=>{
+         getDownloadURL(val).then(url=>{
+            setImageUrl(data=>[...data,url])
+         })
+       })
+     })
+   }
+*/
 
    const handleGetChambre = () =>{
 
@@ -252,17 +269,22 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 // submit new data
    
-   const handleAddFormSubmits =  (event) => {
+   const handleAddFormSubmits = async (event) => {
         event.preventDefault();
         setOpenLoading(true);
+       try {
+          const imgref = ref(Upload,`images/chambres/${v4()}`);
+          await uploadBytes(imgref,addFormData.img); 
+           const snapshoturl =  await getDownloadURL(imgref);
+          // setImageUrl(snapshoturl);
+          console.log('upload success');
 
-        const id=Date.now().toString();
-        console.log(Date.now().toString());
-
-        setDoc(doc(db, "Chanbres", id), {
-          id:id,
+          const id=Date.now().toString();
+          
+          setDoc(doc(db, "Chanbres", id), {
+          identifiant:'i'+id,
           name :addFormData.name,
-          img :addFormData.img,
+          img :snapshoturl,
           prix :addFormData.prix,
           categorie :addFormData.categorie,
           start :0,
@@ -270,7 +292,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
           personn:addFormData.personn,
           description:addFormData.description,
           createdBy:"Administrator",
-          createdDate:'02-05-2023'
+          createdDate:id
         }).then(()=>{
              console.log('succesful');
              handleGetChambre()
@@ -282,7 +304,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
             console.log('erreur :'+error);
             setOpenLoading(false);
         });
-         
+          
+        
+        } catch (error) {
+          console.log(error)
+          setOpenLoading(false);
+        }
+            
    } 
 
    // manage password
@@ -315,10 +343,12 @@ const handleMouseDownPassword = (event) => {
 
    const onImageChange= (event) => {
     if(event.target.files && event.target.files[0]){
-        let img =event.target.files[0];
+        let image =event.target.files[0];
         setAddFormData({
-          img: URL.createObjectURL(img)
+          img:image
       });
+
+      setViewImage(URL.createObjectURL(image))
     }
   };
 
@@ -341,13 +371,25 @@ const handleMouseDownPassword = (event) => {
 
    //delete date
 
-   const handleDeleteClik = (contactId,handleCloseDelete) => {
-      const newContacts = [...contacts];
+   const handleDeleteClik = async (contact,handleCloseDelete) => {
+    console.log("ID:"+contact.createdDate);
+    console.log("ID:"+ Number(contact.createdDate));
+    try {
+      await deleteDoc(doc(db, "users", Number(contact.createdDate)));
+  
+      console.log("Document deleted successfully");
+   
+    } catch (error) {
+      console.error("Error deleting document: ", error);
+      
+    }
+    handleCloseDelete();
+      /*const newContacts = [...contacts];
       const index = contacts.findIndex((contact)=> contact.id ===contactId);
      
        newContacts.splice(index,1);
-       setContacts(newContacts);
-       handleCloseDelete();
+       setContacts(newContacts);*/
+      
    }
 
 
@@ -650,7 +692,8 @@ const handleMouseDownPassword = (event) => {
           <br></br><br></br>
           <br></br>
       
-            <AddData  
+            <AddData
+            viewImage={viewImage}  
             handleChange={handleChange}
             handleClickShowPassword={handleClickShowPassword}
             handleMouseDownPassword={handleMouseDownPassword}
@@ -693,7 +736,7 @@ const handleMouseDownPassword = (event) => {
             </p>
           </span>
         </DialogContent>
-      </Dialog>
+            </Dialog>
           </Box>
         </TrapFocus>
       )}
@@ -775,7 +818,7 @@ const handleMouseDownPassword = (event) => {
 
          <br></br>
        
-
+           
    
           <Box sx={{ width: '100%' }}>      
           <Paper sx={{ width: '100%', mb: 2 }}>

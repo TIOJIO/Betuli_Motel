@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import c1 from '../../assets/img/c1.jpeg'
+import c1 from '../../assets/img/lo1.gif'
 import {useHistory} from 'react-router-dom';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
 
@@ -18,10 +18,10 @@ export default function MediaCard({items}) {
           history.push('chambreinfo/'+items.name);
    }
   return (
-    <Card onClick={handleChambreInfo} sx={{ maxWidth: 345 }}>
+    <Card onClick={handleChambreInfo} sx={{ maxWidth: 345 ,height:350 }}>
       <CardMedia
-        sx={{ height: 140 }}
-        image={items.img}
+        sx={{ height: 200 ,width:345 }}
+        image={items.img? items.img : c1}
         title="green iguana"
       />
       <CardContent>

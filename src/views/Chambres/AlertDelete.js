@@ -36,7 +36,7 @@ export default function AlertDialogSlide({contact,handleDeleteClik,handleClose})
         onClose={handleCloseDelete}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle> Supprimer {contact.name}</DialogTitle>
+        <DialogTitle> Supprimer {contact.name} {contact.createdDate} nn</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             
@@ -46,7 +46,7 @@ export default function AlertDialogSlide({contact,handleDeleteClik,handleClose})
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDelete}>Cancel</Button>
-          <Button onClick={() =>handleDeleteClik( contact.id ,handleCloseDelete)}>Delete</Button>
+          <Button onClick={() =>handleDeleteClik( contact ,handleCloseDelete)}>Delete</Button>
         </DialogActions>
       </Dialog>
     </div>
