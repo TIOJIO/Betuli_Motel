@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import {
   AppBar,
   Button,
@@ -15,16 +15,37 @@ import Welcom from '../Welcom/Welcom'
 import MenuIcon from '@mui/icons-material/Menu';
 import Logo from '../../../src/assets/img/logo_blue.png'
 import {useHistory} from 'react-router-dom';
-import DemoNavbar from '../Navbars/Deroul'
+import Deroul from '../Navbars/Deroul'
+import { Home } from '@material-ui/icons';
+import SingleBedIcon from '@mui/icons-material/SingleBed';
+import PriceChangeIcon from '@mui/icons-material/PriceChange';
+import InventoryIcon from '@mui/icons-material/Inventory';
 
-const Header = ({isLogin}) => {
+const Header = () => {
+  const [isLogin, setIsLogin] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [userSession, setUserSession] = useState([]);
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
 
+  useEffect(()=>{
+   handlegetSessionUser();
+ },[])
 
+ const handlegetSessionUser = () =>{
+  
+  const storedData = JSON.parse(localStorage.getItem('UserSession')) || [];
+  if (storedData.length===0) {
+     console.log('pas de donne');
+
+  } else {
+     setUserSession(storedData);
+     setIsLogin(true);
+     console.log('donner trouver')
+  }
+}
  
   const handleGoHome = (e) => {
     e.preventDefault()
@@ -51,13 +72,24 @@ const Header = ({isLogin}) => {
   const drawerContent = (
     <List sx={{width:'100%',marginTop:'50px'}}>
       
-        <ListItem >
-          <ListItemText sx={{color:'white',fontWeight:'bold',fontSize:'20px' }}> Acceuil</ListItemText>
+        <ListItem  onClick={(event)=>handleHeaderLink(event,'home')}>
+          <ListItemText sx={{color:'white',fontWeight:'bold',fontSize:'12px' }}> <Home/>&nbsp; Acceuil</ListItemText>
         </ListItem>
 
         <ListItem >
-          <ListItemText sx={{color:'white',fontWeight:'bold',fontSize:'20px' }}> Nos Prix</ListItemText>
+          <ListItemText sx={{color:'white',fontWeight:'bold',fontSize:'20px' }}><SingleBedIcon/>&nbsp; Chambre</ListItemText>
         </ListItem>
+
+        <ListItem >
+          <ListItemText sx={{color:'white',fontWeight:'bold',fontSize:'20px' }}> <PriceChangeIcon/>&nbsp; Plan Tarifère</ListItemText>
+        </ListItem>
+
+        { isLogin===true? 
+            <ListItem onClick={(event)=>handleHeaderLink(event,'reservations')} >
+            <ListItemText sx={{color:'white',fontWeight:'bold',fontSize:'20px' }}> <InventoryIcon/>&nbsp;  Mes Reservations </ListItemText>
+          </ListItem>
+               :
+              ''}
   
     </List>
   );
@@ -75,16 +107,16 @@ const Header = ({isLogin}) => {
           <Hidden smDown>
 
               
-              <Button color="primary" style={{borderRadius:'50px'}} variant="outlined" > Acceuil</Button> &nbsp;&nbsp;&nbsp;
-              <Button color="primary" style={{borderRadius:'50px'}} variant="outlined" > Chambre</Button>  &nbsp;&nbsp;&nbsp;
-              <Button color="primary" style={{borderRadius:'50px'}} variant="outlined" > Plan Tarifère</Button> &nbsp;&nbsp;&nbsp;
+              <Button color="primary"  onClick={(event)=>handleHeaderLink(event,'home')} style={{borderRadius:'50px',fontSize:'12px'}} variant="outlined" > <Home/>&nbsp; Acceuil</Button> &nbsp;&nbsp;&nbsp;
+              <Button color="primary" style={{borderRadius:'50px',fontSize:'12px'}} variant="outlined" > <SingleBedIcon/>&nbsp; Chambre</Button>  &nbsp;&nbsp;&nbsp;
+              <Button color="primary" style={{borderRadius:'50px',fontSize:'12px'}} variant="outlined" > <PriceChangeIcon/>&nbsp; Plan Tarifère</Button> &nbsp;&nbsp;&nbsp;
               
-              { isLogin===true? <Button color="primary" onClick={(event)=>handleHeaderLink(event,'reservations')} style={{borderRadius:'50px'}} variant="outlined" > Mes Reservations</Button>
+              { isLogin===true? <Button color="primary" onClick={(event)=>handleHeaderLink(event,'reservations')} style={{borderRadius:'50px',fontSize:'12px'}} variant="outlined" ><InventoryIcon/>&nbsp;  Mes Reservations</Button>
                :
               ''}
                   &nbsp;&nbsp;&nbsp;
               {
-                isLogin===true? <DemoNavbar/>
+                isLogin===true? userSession.map(userInfo =><Deroul userInfo={userInfo}/>) 
                 :
                 <span>
                   <Button onClick={handleLogIn} variant="contained" style={{backgroundColor:"#003366" ,height:'40px',width:'auto'}} disableElevation>
@@ -101,15 +133,15 @@ const Header = ({isLogin}) => {
 
           <Hidden mdUp>
             <IconButton  onClick={toggleDrawer}>
-              <MenuIcon style={{color:'rgb(183, 90, 8)',fontSize:'40px' }} />
+              <MenuIcon style={{color:'#003366',fontSize:'40px' }} />
             </IconButton>
           </Hidden>
         </Toolbar>
       </AppBar>
 
-      <Drawer zIndex='2'  color='rgb(183, 90, 8)' anchor="left"   open={drawerOpen} onClose={toggleDrawer}>
+      <Drawer zIndex='2'  color='white' anchor="left"   open={drawerOpen} onClose={toggleDrawer}>
       <div
-          style={{ width: '300px', padding: '16px',backgroundColor:'rgb(183, 90, 8)' }}
+          style={{ width: '300px', padding: '16px',backgroundColor:'#003366' }}
         >
            
             {drawerContent}

@@ -12,8 +12,10 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import Deconnection from './Deconnection';
+import CardMedia from '@mui/material/CardMedia';
 
-export default function AccountMenu() {
+
+export default function AccountMenu({userInfo}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -23,10 +25,9 @@ export default function AccountMenu() {
     setAnchorEl(null);
   };
   return (
-   
     <React.Fragment>
       <div  style={{textAlign:'end',color:'black',display:'flex', flexDirection:'column'}}>
-                        <Typography style={{fontWeight:'bold'}}> Tiojio Romain </Typography>
+                        <Typography style={{fontWeight:'bold'}}> {userInfo.username} </Typography>
                          <Typography color='textSecondary'> Connected </Typography> 
       </div>
                       &nbsp;&nbsp;&nbsp;&nbsp;
@@ -40,7 +41,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 50, height: 50 }}>M</Avatar>
+            <Avatar sx={{ width: 50, height: 50 }}> <img src={userInfo.profile} style={{width:'50px' ,height:'50px'}}/></Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -49,7 +50,7 @@ export default function AccountMenu() {
         id="account-menu"
         open={open}
         onClose={handleClose}
-        
+        style={{textAlign:'center'}}
         PaperProps={{
           elevation: 0,
           sx: {
@@ -79,12 +80,18 @@ export default function AccountMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem>
-          <Avatar /> Profile
-        </MenuItem>
-        <MenuItem>
-          <Avatar /> My account
-        </MenuItem>
+        <CardMedia
+        sx={{ height: 100 ,width:345 }}
+        image={userInfo.profile}
+        title="image profile"
+      />
+      <Avatar style={{ width: 70, height: 70,margin:'auto',marginTop:'-20px' }}> <img src={userInfo.profile} style={{width:'100%' ,height:'100%'}}/></Avatar>
+
+        <p style={{color:'black', fontWeight:'bold'}}>{userInfo.username}</p>
+        <p style={{color:'black', fontWeight:'bold'}}>{userInfo.numero}</p>
+        <p style={{color:'black', fontWeight:'bold'}}>{userInfo.email}</p>
+        
+
         <Divider />
         <MenuItem>
           <ListItemIcon>

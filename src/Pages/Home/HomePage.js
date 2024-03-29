@@ -112,15 +112,15 @@ const HomePage = (props) => {
 
          {view && (
         <TrapFocus view>
-          <Box tabIndex={-1}  style={{ width:'100%' }} >
+          <Box tabIndex={-1}  style={{ width:'100%'}} >
           <div style={{ backgroundColor:'white' }}>
-          <Header isLogin={true}/>
+          <Header isLogin={false}/>
           <Welcom/>
 
           <br></br>
           <br></br>
           <br></br>
-          <span style={{textAlign:'center'}}>
+          <span style={{textAlign:'center',backgroundColor:'white'}}>
                <h1 style={{color:'black'}}> Découvez une  destination de rêve pour un doux repos et <br></br> 
                  vivez une experience unique dans un cadre serein et luxueux
                </h1>
@@ -128,43 +128,26 @@ const HomePage = (props) => {
 
           <ViewAllCategorie contacts={contacts}/>
 
+          <br></br>
+          <br></br>
           <span style={{textAlign:'center'}}>
                <h1 style={{color:'black'}}> Découvez une  destination de rêve pour un doux repos et <br></br> 
                  vivez une experience unique dans un cadre serein et luxueux
                </h1>
-               <h1> Nos Meilleur chambres</h1>
+               <h1 style={{color:'#003366'}}> Nos Meilleur chambres</h1>
           </span>
           
 
          
          <br></br><br></br>
-          <span style={{textAlign:'center'}}>
-               <h1 style={{color:'black'}}> Nos Categorie de chambre </h1>
-
-               <Box sx={{ width: '20%' ,margin:'auto', paddingBottom:'40px'}}>
-                  <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    textColor="secondary"
-                    indicatorColor="secondary"
-                    aria-label="secondary tabs example"
-                  >
-                    <Tab value="one" label="Tous" />
-                    <Tab value="two" label="Climatisé" />
-                    <Tab value="three" label="Ventilé" />
-                  </Tabs>
-               </Box>
-          </span>
-
+          
           
           <BestChambre contacts={contacts}/>
 
    
-          
+          <br></br><br></br>
 
-          <h1>New Components</h1>
-          <h1>New Components</h1>
-          <h1>New Components</h1>
+          
 
            <Chat/>
            

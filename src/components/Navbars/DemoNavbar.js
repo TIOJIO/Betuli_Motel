@@ -1,219 +1,111 @@
-/*!
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Tooltip from '@mui/material/Tooltip';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+import Deconnection from './Deconnection';
 
-=========================================================
-* Now UI Dashboard React - v1.5.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/now-ui-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/now-ui-dashboard-react/blob/main/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Typography,Badge  ,Box,TextField} from '@material-ui/core';
-import {Avatar} from '@material-ui/core';
-import Deroul from './Deroul';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import SettingsIcon from '@mui/icons-material/Settings';
-import MailIcon from '@mui/icons-material/Mail';
-import FixedPlugin from '../FixedPlugin/FixedPlugin';
-import Sidebar from "components/Sidebar/Sidebar.js";
-
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Container,
-  InputGroup,
-  InputGroupText,
-  InputGroupAddon,
-  Input,
-} from "reactstrap";
-
-import routes from "routes.js";
-
-function DemoNavbar(props) {
-  const [backgroundColor, setBackgroundColor] = React.useState("blue");
-  const handleColorClick = (color) => {
-    setBackgroundColor(color);
+export default function AccountMenu({userSession}) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
   };
-
-
-
-  const location = useLocation();
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
-  const [color, setColor] = React.useState("transparent");
-  const sidebarToggle = React.useRef();
-  const toggle = () => {
-    if (isOpen) {
-      setColor("transparent");
-    } else {
-      setColor("white");
-    }
-    setIsOpen(!isOpen);
+  const handleClose = () => {
+    setAnchorEl(null);
   };
-  const dropdownToggle = (e) => {
-    setDropdownOpen(!dropdownOpen);
-  };
-  const getBrand = () => {
-    var name;
-    routes.map((prop, key) => {
-      if (prop.collapse) {
-        prop.views.map((prop, key) => {
-          if (prop.path === props.location.pathname) {
-            name = prop.name;
-          }
-          return null;
-        });
-      } else {
-        if (prop.redirect) {
-          if (prop.path === props.location.pathname) {
-            name = prop.name;
-          }
-        } else {
-          if (prop.path === props.location.pathname) {
-            name = prop.name;
-          }
-        }
-      }
-      return null;
-    });
-    return name;
-  };
-  const openSidebar = () => {
-    document.documentElement.classList.toggle("nav-open");
-    sidebarToggle.current.classList.toggle("toggled");
-  };
-  // function that adds color white/transparent to the navbar on resize (this is for the collapse)
-  const updateColor = () => {
-    if (window.innerWidth < 993 && isOpen) {
-      setColor("white");
-    } else {
-      setColor("transparent");
-    }
-  };
-  React.useEffect(() => {
-    window.addEventListener("resize", updateColor);
-  }, []);
-  React.useEffect(() => {
-    if (
-      window.innerWidth < 993 &&
-      document.documentElement.className.indexOf("nav-open") !== -1
-    ) {
-      document.documentElement.classList.toggle("nav-open");
-      sidebarToggle.current.classList.toggle("toggled");
-    }
-  }, [location]);
   return (
-    // add or remove classes depending if we are on full-screen-maps page or not
-
-
    
-    <Navbar
-      color={
-        props.location.pathname.indexOf("full-screen-maps") !== -1
-          ? "white"
-          : color
-      }
-      expand="lg"
-      className={
-        props.location.pathname.indexOf("full-screen-maps") !== -1
-          ? "navbar-absolute fixed-top"
-          : "navbar-absolute fixed-top " +
-            (color === "transparent" ? "navbar-transparent " : "")
-      }
-    >
-       
-      <Container fluid>
-        <div className="navbar-wrapper">
-          <div className="navbar-toggle">
-            <button
-              type="button"
-              ref={sidebarToggle}
-              className="navbar-toggler"
-              onClick={() => openSidebar()}
-            >
-              <span className="navbar-toggler-bar bar1" />
-              <span className="navbar-toggler-bar bar2" />
-              <span className="navbar-toggler-bar bar3" />
-            </button>
-          </div>
-          <NavbarBrand href="/">{getBrand()}</NavbarBrand>
-        </div>
-        <NavbarToggler onClick={toggle}>
-          <span className="navbar-toggler-bar navbar-kebab" />
-          <span className="navbar-toggler-bar navbar-kebab" />
-          <span className="navbar-toggler-bar navbar-kebab" />
-        </NavbarToggler>
-        <Collapse isOpen={isOpen} navbar className="justify-content-end">
-         
-          
-
-        
-          <Nav navbar>
-            <NavItem>
-              <Link to="#pablo" className="nav-link">
-                <Avatar style={{backgroundColor:'white'}} >
-                   <Badge  variant="dot"color="success">
-                       <NotificationsIcon color="action" />
-                   </Badge>
-                 </Avatar>
-   
-                <p>
-                  <span className="d-lg-none d-md-block">Stats</span>
-                </p>
-              </Link>
-            </NavItem>
-            
-            <Dropdown
-              nav
-              isOpen={dropdownOpen}
-              toggle={(e) => dropdownToggle(e)}
-            >
-              <DropdownToggle style={{color:'black'}} caret nav>
-                  <Avatar style={{backgroundColor:'white'}}>
-                     <SettingsIcon color="action"/>
-                  </Avatar>               
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem style={{color:'black'}} tag="a">Action</DropdownItem>
-                <DropdownItem style={{color:'black'}} tag="a">Another Action</DropdownItem>
-                <DropdownItem style={{color:'black'}} tag="a">Something else here</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-            
-            &nbsp;&nbsp;&nbsp;&nbsp;
-              <div style={{display:'flex',height:"50px",justifyContent:'space-evenly'}}> 
-                    
-                     <div  style={{textAlign:'end',color:'black',display:'flex', flexDirection:'column'}}>
-                        <Typography style={{fontWeight:'bold'}}>  GSB Romain </Typography>
-                         <Typography color='textSecondary'>  Admin </Typography> 
-                       </div>
+    <React.Fragment>
+      <div  style={{textAlign:'end',color:'black',display:'flex', flexDirection:'column'}}>
+                        <Typography style={{fontWeight:'bold'}}> Tiojio  </Typography>
+                         <Typography color='textSecondary'> Connected </Typography> 
+      </div>
                       &nbsp;&nbsp;&nbsp;&nbsp;
-                      <Deroul/>                    
-                
-             </div>
-           
-          </Nav>
-        </Collapse>
-      </Container>
-    </Navbar>
+      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+        <Tooltip title="Account settings">
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            sx={{ ml: 2 }}
+            aria-controls={open ? 'account-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+          >
+            <Avatar sx={{ width: 50, height: 50 }}>
+               <img src={userSession.profile} style={{width:'50px'}}/>
+            </Avatar>
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <MenuItem>
+          <Avatar /> Profile
+        </MenuItem>
+        <MenuItem>
+          <Avatar /> My account
+        </MenuItem>
+        <Divider />
+        <MenuItem>
+          <ListItemIcon>
+            <PersonAdd fontSize="small" />
+          </ListItemIcon>
+          Add another account
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <Settings fontSize="small" />
+          </ListItemIcon>
+          Settings
+        </MenuItem>
+    
+        <Deconnection/>
+        
+      </Menu>
+     
+    </React.Fragment>
+ 
   );
 }
-
-export default DemoNavbar;

@@ -8,6 +8,10 @@ import Typography from '@mui/material/Typography';
 import c1 from '../../assets/img/lo1.gif'
 import {useHistory} from 'react-router-dom';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder'
+import MessageIcon from '@mui/icons-material/Message';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import InventoryIcon from '@mui/icons-material/Inventory';
 
 
 export default function MediaCard({items}) {
@@ -32,10 +36,20 @@ export default function MediaCard({items}) {
           {items.description}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
-        <FavoriteBorder style={{color:'yellow'}}/>
+      <CardActions disableSpacing>
+
+           <Button color="primary" style={{borderRadius:'50px',fontSize:'12px'}} >
+              <ThumbUpOffAltIcon /> &nbsp;&nbsp; j'aime
+           </Button>
+      
+           <Button color="primary" style={{borderRadius:'50px',fontSize:'12px'}}>
+              <AddShoppingCartIcon style={{fontSize:'17px'}}/> &nbsp;&nbsp; Ajouter
+           </Button>
+
+           <Button color="primary" style={{borderRadius:'50px',fontSize:'12px'}}>
+              <InventoryIcon style={{fontSize:'17px'}} /> &nbsp;&nbsp; Reserver
+           </Button>
+   
       </CardActions>
     </Card>
   );

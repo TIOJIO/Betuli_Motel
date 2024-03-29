@@ -1,4 +1,3 @@
-
 import React, { useState,useContext} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -7,17 +6,20 @@ import {Box, Grid,Button,Typography} from '@material-ui/core';
 import logo from './logo.png';
 import { Link } from 'react-router-dom';
 import {useHistory} from 'react-router-dom';
-import HeaderAccount from '../../components/Header/HeaderAccount'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Avatar from '@mui/material/Avatar';
 import Backdrop from '@mui/material/Backdrop';
+import HeaderAccount from '../../components/Header/HeaderAccount'
 import CircularProgress from '@mui/material/CircularProgress';
 import { initializeApp } from 'firebase/app';
-import { collection,getStorage,ref,getDownloadURL,uploadBytesResumable , addDoc ,setDoc, doc, query, orderBy, onSnapshot, QuerySnapshot, deleteDoc} from 'firebase/firestore';
+import { collection,getStorage,uploadBytesResumable , addDoc ,setDoc, doc, query, orderBy, onSnapshot, QuerySnapshot, deleteDoc} from 'firebase/firestore';
 import { db } from '../../Firebase/Config';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getDownloadURL, listAll, ref,uploadBytes } from "firebase/storage";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import { Upload } from '../../Firebase/Upload';
+import { v4 } from 'uuid';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDE0ExiiNIjYis-EamnnSbiLK7-Uvn7Lng",
@@ -37,14 +39,14 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '95vh',
+    height: 'auto',
     backgroundColor: 'rgba(181, 184, 183, 0.852)',
   },
   paper: {
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(3),
-    marginTop:'40px',
+    marginTop:'90px',
     width: '35%',
     [theme.breakpoints.down('sm')]: {
       width: '80%',
@@ -69,7 +71,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight:'bold',
     fontSize:"20px",
     marginTop:"10px",
-    color:"#003366",
+    color:"rgb(18, 129, 219)",
 
   }
 }));
@@ -83,6 +85,7 @@ function LoginPage() {
     const [email , setEmail]=useState("");
     const [username , setUsername]=useState("");
     const [password , setPassword]=useState("");
+    const [image , setImage]=useState("");
     const [numero , setNumero]=useState(0);
  
 
@@ -93,7 +96,9 @@ const handleClose = () => {
 
 const handleSignUp = async () => {
     setOpenBackdrop(true);
-    try {
+    
+
+  try {
       if (email=='' || password=='') {
         console.log("veillez remplir toute les information")
 
@@ -103,6 +108,7 @@ const handleSignUp = async () => {
         const user = userCredential.user;
         console.log('Utilisateur enregistré avec succès:', user.uid);
         handleSaveUser(username,numero,password,email);
+        history.push('login');
         return user;
       }
       
@@ -114,20 +120,38 @@ const handleSignUp = async () => {
   };
 
   const handleSaveUser= async () =>{
+ 
+    const date = new Date();
+    let currentDay = String(date.getDate()).padStart(2, "0");
+    let currentMonth = String(date.getMonth() + 1).padStart(2, "0");
+    let currentHeure = date.getHours();
+    let currentMinute = date.getMinutes();
+    let currentYear = date.getFullYear();
+    let currentDate = `${currentDay}-${currentMonth}-${currentYear} ${currentHeure}:${currentMinute}`;
 
+      const imgref = ref(Upload,`utilisateurs/${v4()}`);
+      await uploadBytes(imgref,image); 
+       const snapshoturl =  await getDownloadURL(imgref);
+      // setImageUrl(snapshoturl);
+      console.log('upload success');
+
+      
         const id=Date.now().toString();  
         setDoc(doc(db, "Utilisateurs", id), {
           username: username,
           email:email ,
           password: password,
           phone: numero,
+          profile:snapshoturl,
           isAdmin: false,
+          dateCreation:currentDate
         }).then(()=>{
              //setLoading(false);
              const userInfo={
               'username':username,
               'email':email,
               'password':password,
+              'profile':snapshoturl,
               'numero':numero,
               'isLogin':true,
             }
@@ -148,12 +172,18 @@ const handleSignUp = async () => {
 
   }
   
+  const onImageChange= (event) => {
+    if(event.target.files && event.target.files[0]){
+        let image =event.target.files[0];
+        setImage(image);
+    }
+  };
 
   const classes = useStyles();
   return (
     <div>
     <div className={classes.root}>
-      <HeaderAccount/>
+       <HeaderAccount/>
       <Paper className={classes.paper}>
           <div style={{textAlign:"center"}}>
               <Avatar style={{margin:'auto',textAlign:'center'}} sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -163,7 +193,7 @@ const handleSignUp = async () => {
 
           </div>
         
-          <label>username</label>
+          <label>Nom Utilisateur</label>
         <input 
           className={classes.textField}
           onChange={(e) =>setUsername(e.target.value)}
@@ -172,7 +202,7 @@ const handleSignUp = async () => {
            variant="outlined"
         />
 
-        <p>email</p>
+        <label>email</label>
         <input 
           className={classes.textField}
           onChange={(e) =>setEmail(e.target.value)}
@@ -181,7 +211,7 @@ const handleSignUp = async () => {
           variant="outlined"
         />
 
-       <p>Numero</p>
+       <label>Numero</label>
         <input 
           className={classes.textField}
           onChange={(e) =>setNumero(e.target.value)}
@@ -189,8 +219,13 @@ const handleSignUp = async () => {
           type="number"   placeholder="Numero..."
           variant="outlined"
         />
+        <label>Image de Profile</label>
+        <input 
+            type="file" id='img' name="myImage"  onChange={onImageChange} 
+        />
+
          
-         <p>Password</p>
+         <label>Password</label>
          <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <input

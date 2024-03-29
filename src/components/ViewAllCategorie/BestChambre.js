@@ -37,7 +37,7 @@ const Carousel = ({contacts}) => {
       <Card style={{flexWrap:'wrap', display: 'flex',width:'80%',justifyContent:'space-arround' }}>
         <CardMedia
       component="img"
-      sx={{ width: 500, height:'auto' }}
+      sx={{ width: 400, height:'300px' }}
       image={contacts[index].img}
       alt="Live from space album cover"
     />

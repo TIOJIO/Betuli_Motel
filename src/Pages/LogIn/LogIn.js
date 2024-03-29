@@ -1,5 +1,5 @@
 
-import React, { useState,useContext} from 'react';
+import React, { useState,useContext , useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -16,6 +16,10 @@ import Backdrop from '@mui/material/Backdrop';
 import HeaderAccount from '../../components/Header/HeaderAccount'
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { collection,getStorage,ref,getDownloadURL,uploadBytesResumable , addDoc ,setDoc, doc, query, orderBy, onSnapshot, QuerySnapshot, deleteDoc} from 'firebase/firestore';
+import { Password } from '@mui/icons-material';
+import { db } from '../../Firebase/Config';
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyDE0ExiiNIjYis-EamnnSbiLK7-Uvn7Lng",
@@ -74,12 +78,43 @@ const useStyles = makeStyles(theme => ({
 
 function LoginPage() {
     const history=useHistory();
+    const [userSession , setUserSession]=useState([]);
     const [email , setEmail]=useState("");
     const [username , setUsername]=useState("");
     const [password , setPassword]=useState("");
     const [openBackdrop, setOpenBackdrop] = useState(false);
     const [open, setOpen] = React.useState(false);
 
+ 
+
+   const handlegetSessionUser = () =>{
+ 
+        try {
+          const collectionRef = collection(db,'Utilisateurs');
+        const q= query(collectionRef , orderBy('username','desc'));
+         onSnapshot(q, querySnapshot =>{
+         const users= querySnapshot.docs.map(doc =>({
+                   id:doc.id,
+                   username :doc.data().username,
+                   email :doc.data().email,
+                   password :doc.data().password,
+                   profile :doc.data().profile,
+                   numero :doc.data().numero,
+                   isLogin :doc.data().isLogin,
+                   
+             }))
+
+
+             const UserSession = users.filter( user => user.email===email && user.password===password )
+    
+            localStorage.setItem("UserSession", JSON.stringify(UserSession));
+            history.push('home');
+               
+       })
+        } catch (error) {
+          console.log(error)
+        } 
+   }
 
    const handleSubmit = async (e) => {
       e.preventDefault()
@@ -98,14 +133,8 @@ function LoginPage() {
              history.push('admin/paiement');
           }
 
-          const userInfo={
-            'username':username,
-            'email':email,
-            'password':password,
-            'isLogin':true,
-          }
-
-          await  localStorage.setItem("userInfo", JSON.stringify(userInfo));
+          handlegetSessionUser()
+          
         }
        return user;
       } catch (error) {

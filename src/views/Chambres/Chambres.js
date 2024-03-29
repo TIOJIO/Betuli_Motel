@@ -71,6 +71,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
    const [imageUrl , setImageUrl] = useState('');
    const [selectedData , setSelectedData] = useState([]);
    const [addFormData , setAddFormData] = useState({
+    identifiant:'',
     name :'',
     img :defautlImage,
     prix :0,
@@ -85,6 +86,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
    });
 
    const [editFormData , setEditFormData] = useState({
+    identifiant:'',
     name :'',
     img :'',
     prix :0,
@@ -194,7 +196,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
         
 
         const formValues = { 
-           
+          identifiant:contact.identifiant,
           name :contact.name,
           img :contact.img,
           prix :contact.prix,
@@ -226,6 +228,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
         event.preventDefault();
         const editContact = {
           id: editContactId,
+          identifiant:editFormData.identifiant,
           name :editFormData.name,
           img :editFormData.img,
           prix :editFormData.prix,
@@ -273,6 +276,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
         event.preventDefault();
         setOpenLoading(true);
        try {
+          
+        const date = new Date();
+        let currentDay = String(date.getDate()).padStart(2, "0");
+        let currentMonth = String(date.getMonth() + 1).padStart(2, "0");
+        let currentHeure = date.getHours();
+        let currentMinute = date.getMinutes();
+        let currentYear = date.getFullYear();
+        let currentDate = `${currentDay}-${currentMonth}-${currentYear} ${currentHeure}:${currentMinute}`;
+
           const imgref = ref(Upload,`images/chambres/${v4()}`);
           await uploadBytes(imgref,addFormData.img); 
            const snapshoturl =  await getDownloadURL(imgref);
@@ -282,7 +294,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
           const id=Date.now().toString();
           
           setDoc(doc(db, "Chanbres", id), {
-          identifiant:'i'+id,
+          identifiant:id,
           name :addFormData.name,
           img :snapshoturl,
           prix :addFormData.prix,
@@ -292,7 +304,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
           personn:addFormData.personn,
           description:addFormData.description,
           createdBy:"Administrator",
-          createdDate:id
+          createdDate:currentDate
         }).then(()=>{
              console.log('succesful');
              handleGetChambre()
@@ -372,18 +384,18 @@ const handleMouseDownPassword = (event) => {
    //delete date
 
    const handleDeleteClik = async (contact,handleCloseDelete) => {
-    console.log("ID:"+contact.createdDate);
-    console.log("ID:"+ Number(contact.createdDate));
     try {
-      await deleteDoc(doc(db, "users", Number(contact.createdDate)));
-  
+      const docRef = doc(db, "Chanbres", contact.createdDate);
+       await deleteDoc(docRef);
       console.log("Document deleted successfully");
-   
+       handleGetChambre();
+       handleCloseDelete();
     } catch (error) {
       console.error("Error deleting document: ", error);
+      handleCloseDelete();
       
     }
-    handleCloseDelete();
+    
       /*const newContacts = [...contacts];
       const index = contacts.findIndex((contact)=> contact.id ===contactId);
      

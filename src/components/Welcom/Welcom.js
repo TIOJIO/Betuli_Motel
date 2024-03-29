@@ -42,12 +42,12 @@ const HomePage = (props) => {
     return (
       <div className='main-bloc'> 
          <div className='bloc-cover'> 
-            <Grid style={{width:'70%',paddingLeft:"70px"}} container spacing={2}>          
-               <Grid style={{width:"70%",marginTop:'80px',background:'rgba(255, 255, 255, 0.297)',borderRadius:'5px'}} container spacing={2}>
+            <Grid style={{width:'55%',margin:'auto',padding:'0px'}} container spacing={2}>          
+               <Grid style={{width:"100%",marginTop:'80px',background:'rgba(255, 255, 255, 0.297)',borderRadius:'5px'}} container spacing={2}>
                      
                      <span style={{padding:'10px 0px 0px 10px'}}>
                          <p style={{color:'white', fontWeight:'bold',paddingBottom:'10px',fontSize:'20px'}}>
-                            <TypingText text="Trouvez desormais un hébergement de qualité pour votre bien être a BETULI Motel"/>
+                            <TypingText text="Bienvenu chez Vous !"/>
                           </p>
                           <p style={{color:'white',fontWeight:'bold'}}>Meilleur prix garentie pour vous</p>
                      </span>

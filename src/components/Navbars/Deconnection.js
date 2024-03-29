@@ -70,10 +70,13 @@ export default function AlertDialog() {
     setOpen(false);
   };
 
-  const handleDeleteClick = () => {
+  const history=useHistory();
+
+  const handleDeleteClick = async () => {
     setOpen(false);
-    setOpenn(!openn);
-    window.location.href="/loginUser";
+   // history.push('login');
+     window.location.reload();
+    await localStorage.removeItem('UserSession');
   };
 
   
@@ -105,8 +108,8 @@ export default function AlertDialog() {
         <DialogActions>
         
           <Button 
-           style={{backgroundColor:'green',width:'120px',color:'white'}}
-          onClick={handleDeleteClick} autoFocus
+           style={{backgroundColor:'#003366',width:'120px',color:'white'}}
+          onClick={()=>handleDeleteClick()} autoFocus
           >
             Deconnecter
           </Button>

@@ -67,9 +67,10 @@ export default function FullWidthTabs({contacts}) {
 
   
   return (
-    <Box sx={{ bgcolor: 'background.paper', width: '100%' ,margin:'auto'}}>
+    <Box style={{ backgroundColor:'#f4f7fa',width: '100%' ,margin:'auto' }}>
          <span style={{textAlign:'center'}}>
-               <h1 style={{color:'black'}}> Nos Categorie de chambre </h1>
+               <br></br>
+               <h1 style={{color:'black',marginTop:'10px'}}> Nos Categorie de chambre </h1>
                </span>
        <Box sx={{ width: '20%' ,margin:'auto', paddingBottom:'40px'}}>
         <Tabs
