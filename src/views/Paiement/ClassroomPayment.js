@@ -78,6 +78,8 @@ export default function ActionAreaCard() {
     };
   
     const [selectedGroup, setSelectedGroup] = useState("all");
+
+    
     const filteredData = filterValue === "all" 
     ? datas 
     : datas.filter(d => d.name === filterValue);

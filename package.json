@@ -43,6 +43,7 @@
     "react-scripts": "^4.0.3",
     "react-swipeable-views": "^0.14.0",
     "react-tabs": "^6.0.1",
+    "react-toastify": "^10.0.5",
     "reactstrap": "8.9.0",
     "recharts": "^2.6.2",
     "simplebar-react": "^3.2.4",

@@ -13,7 +13,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 
 
-const Carousel = ({contacts}) => {
+const Carousel = ({handleSelectedChambre,contacts}) => {
 
   const [index, setIndex] = useState(0);
 

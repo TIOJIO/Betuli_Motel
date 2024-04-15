@@ -38,43 +38,21 @@ import Dash2 from './Dash2'
 
  
 
-export default function Main({}){
-
-  const [contacts , setContacts] = useState([]);
-
-  useEffect(()=>{
-    const storedData = JSON.parse(localStorage.getItem('chambres')) || [];
-    if (storedData.length===0) {
-       console.log('pas de donne');
-    } else {
-       setContacts(storedData);
-       console.log('donner trouver')
-    }
-    
-   },[])
-
-  let {id} = useParams();
-  console.log(id)
-  console.log(contacts)
-  const filtredData = contacts.filter(item=>item.name===id);
-
-  
-
+ export default function Main({handleAddToCard,selectedContacts}){
 
     const classes = useStyles();
     return(
     <Grid id="detail">
-        <Header/>
 
         <h1 style={{fontWeight:'bold',marginTop:'70px',color:'black',paddingLeft:"70px"}}> DETAIL SUR LA CHAMBRE</h1>
        <Grid  style={{ height: 'auto',margin:'auto', width: "90%",display:"flex",justifyContent:'space-between',flexWrap:'wrap',justifyItems:'center' }}>
         <Grid style={{width:'900px'}}>
-             <Dash1 filtredData={filtredData}/>
+             <Dash1 selectedContacts={selectedContacts}/>
         </Grid>
 
         <Grid style={{width:'400px'}}>
             <br></br>
-             <Dash2 filtredData={filtredData}/>
+             <Dash2 handleAddToCard={handleAddToCard} selectedContacts={selectedContacts}/>
         </Grid>
       </Grid>
     </Grid>

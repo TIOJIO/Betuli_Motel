@@ -105,8 +105,20 @@ function LoginPage() {
              }))
 
 
-             const UserSession = users.filter( user => user.email===email && user.password===password )
+             const FilterUserSession = users.filter( user => user.email===email && user.password===password );
+
+             const UserSession = {
+              id:FilterUserSession[0].id,
+              username :FilterUserSession[0].username,
+              email :FilterUserSession[0].email,
+              password :FilterUserSession[0].password,
+              profile :FilterUserSession[0].profile,
+              numero :FilterUserSession[0].numero,
+              isLogin :FilterUserSession[0].isLogin,
+           };
     
+            
+
             localStorage.setItem("UserSession", JSON.stringify(UserSession));
             history.push('home');
                

@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import BookingDialog from '../../components/Dialog/BookingDialog'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const bull = (
   <Box
@@ -17,26 +18,25 @@ const bull = (
   </Box>
 );
 
-export default function BasicCard({filtredData}) {
+export default function BasicCard({handleAddToCard,selectedContacts}) {
   return (
     <Card style={{width:'100%',marginTop:'20px' }}>
        
-       {
-        filtredData.map(item=>(
+      
           <div>
        <CardContent>
       <p style={{display:'flex',fontWeight:"bold",color:'black',fontSize:"15px"}}> 
-            {item.description} 
+            {selectedContacts.description} 
          </p>
          <p style={{display:'flex',fontWeight:"bold",color:'green',fontSize:"15px"}}> 
                   12-20-2023
            </p>
         <Typography sx={{ fontSize: 20 ,fontWeight:'bold' }} color="text.secondary" gutterBottom>
-             {item.categorie} 
+             {selectedContacts.categorie} 
         </Typography>
 
         <Typography sx={{ fontSize: 20,fontWeight:'bold' }} color="text.secondary" gutterBottom>
-             {item.prix} XAF 
+             {selectedContacts.prix} XAF 
         </Typography>
 
       
@@ -47,12 +47,12 @@ export default function BasicCard({filtredData}) {
       </CardContent>
       <CardActions>
              <BookingDialog/> 
-             <BookingDialog/> 
+             <Button color="primary" onClick={()=>handleAddToCard(selectedContacts)} style={{borderRadius:'50px'}} variant="outlined">
+              <AddShoppingCartIcon style={{fontSize:'17px'}}/> &nbsp;&nbsp; Ajouter
+           </Button>
       </CardActions>
        </div>
-        ))
-       }
-
+        
       
     </Card>
   );

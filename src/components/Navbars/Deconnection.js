@@ -84,7 +84,7 @@ export default function AlertDialog() {
   return (
     <div>
 
-    <StyledMenuItem  onClick={handleClickOpen} >
+    <StyledMenuItem style={{backgroundColor:'#003366', color:'white'}}  onClick={handleClickOpen} >
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

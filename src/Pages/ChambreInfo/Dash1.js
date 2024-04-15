@@ -54,23 +54,22 @@ const useStyles = makeStyles({
   
   });
 
-export default function Main({filtredData}){
+export default function Main({selectedContacts}){
    
-    console.log(filtredData)
+    
 
     const classes = useStyles();
 
     return(
     <Paper style={{width:'100%' }}> 
-        {
-           filtredData.map(item=>(
+     
                
                <Grid container  className={classes.main}>
      
              <CardMedia
              component="img"
              height="220"
-             image={item.img}
+             image={selectedContacts.img}
              alt="Paella dish"
            /> 
        
@@ -80,7 +79,7 @@ export default function Main({filtredData}){
              <div className={classes.spanimage}>
                 <span style={{padding:'0px 0px 0px 30px'}}>
                      <img className={classes.img} 
-                        src={item.img}
+                        src={selectedContacts.img}
                      />
                   </span> 
 
@@ -91,26 +90,25 @@ export default function Main({filtredData}){
              <Grid  style={{paddingLeft:'20px',paddingRight:'20px'}} container spacing={2}>
               <Grid item xs={12} sm container>
                 <Grid item xs container direction="column" spacing={2}>
-                  <h1 style={{fontWeight:'bold',color:'#003366'}}>CHAMBRE : {item.name} </h1>
+                  <h1 style={{fontWeight:'bold',color:'#003366'}}>CHAMBRE : {selectedContacts.name} </h1>
                   <p style={{display:'flex',fontWeight:"bold",color:'green',fontSize:"25px"}}> 
-                      Categorie : {item.categorie} 
+                      Categorie : {selectedContacts.categorie} 
                   </p>
                 </Grid>
                 <Grid item>
-                  <p style={{fontWeight:"bold",color:'green',fontSize:"20px"}}>{item.prix} XAF</p>
+                  <p style={{fontWeight:"bold",color:'green',fontSize:"20px"}}>{selectedContacts.prix} XAF</p>
                   <p>< AutoStoriesIcon/> x 5</p>
                 </Grid>
               </Grid>
             </Grid>  
-               <p>{item.description} </p>
+               <p>{selectedContacts.description} </p>
                <h1>.</h1>
 
              </div>  
          </div>   
      
       </Grid>
-           ))
-        }
+          
     </Paper>
     )
 }

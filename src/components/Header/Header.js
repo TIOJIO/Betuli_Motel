@@ -116,7 +116,7 @@ const Header = () => {
               ''}
                   &nbsp;&nbsp;&nbsp;
               {
-                isLogin===true? userSession.map(userInfo =><Deroul userInfo={userInfo}/>) 
+                isLogin===true? <Deroul userSession={userSession}/>
                 :
                 <span>
                   <Button onClick={handleLogIn} variant="contained" style={{backgroundColor:"#003366" ,height:'40px',width:'auto'}} disableElevation>

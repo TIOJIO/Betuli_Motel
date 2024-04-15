@@ -48,7 +48,7 @@ function a11yProps(index) {
   };
 }
 
-export default function FullWidthTabs({contacts}) {
+export default function FullWidthTabs({contacts,handleAddToCard,handleSelectedChambre}) {
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
@@ -98,7 +98,10 @@ export default function FullWidthTabs({contacts}) {
                 <Grid container justifyContent="center" spacing={2}>
                 {contacts.map((items) => (
                     <Grid key={items.id} item>
-                    <CardChambre items={items}/>
+                    <CardChambre items={items}
+                        handleAddToCard={handleAddToCard}
+                        handleSelectedChambre={handleSelectedChambre}
+                    />
                     </Grid>
                 ))}
                 </Grid>

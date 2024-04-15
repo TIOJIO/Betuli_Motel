@@ -15,7 +15,7 @@ import Deconnection from './Deconnection';
 import CardMedia from '@mui/material/CardMedia';
 
 
-export default function AccountMenu({userInfo}) {
+export default function AccountMenu({userSession}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -27,7 +27,7 @@ export default function AccountMenu({userInfo}) {
   return (
     <React.Fragment>
       <div  style={{textAlign:'end',color:'black',display:'flex', flexDirection:'column'}}>
-                        <Typography style={{fontWeight:'bold'}}> {userInfo.username} </Typography>
+                        <Typography style={{fontWeight:'bold'}}> {userSession.username} </Typography>
                          <Typography color='textSecondary'> Connected </Typography> 
       </div>
                       &nbsp;&nbsp;&nbsp;&nbsp;
@@ -41,7 +41,7 @@ export default function AccountMenu({userInfo}) {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 50, height: 50 }}> <img src={userInfo.profile} style={{width:'50px' ,height:'50px'}}/></Avatar>
+            <Avatar sx={{ width: 50, height: 50 }}> <img src={userSession.profile} style={{width:'50px' ,height:'50px'}}/></Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -82,14 +82,14 @@ export default function AccountMenu({userInfo}) {
       >
         <CardMedia
         sx={{ height: 100 ,width:345 }}
-        image={userInfo.profile}
+        image={userSession.profile}
         title="image profile"
       />
-      <Avatar style={{ width: 70, height: 70,margin:'auto',marginTop:'-20px' }}> <img src={userInfo.profile} style={{width:'100%' ,height:'100%'}}/></Avatar>
+      <Avatar style={{ width: 70, height: 70,margin:'auto',marginTop:'-20px' }}> <img src={userSession.profile} style={{width:'100%' ,height:'100%'}}/></Avatar>
 
-        <p style={{color:'black', fontWeight:'bold'}}>{userInfo.username}</p>
-        <p style={{color:'black', fontWeight:'bold'}}>{userInfo.numero}</p>
-        <p style={{color:'black', fontWeight:'bold'}}>{userInfo.email}</p>
+        <p style={{color:'black', fontWeight:'bold'}}>{userSession.username}</p>
+        <p style={{color:'black', fontWeight:'bold'}}>{userSession.numero}</p>
+        <p style={{color:'black', fontWeight:'bold'}}>{userSession.email}</p>
         
 
         <Divider />

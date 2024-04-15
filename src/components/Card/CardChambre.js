@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState , useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -12,17 +12,24 @@ import MessageIcon from '@mui/icons-material/Message';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import InventoryIcon from '@mui/icons-material/Inventory';
+import { collection,getStorage,uploadBytesResumable , addDoc ,setDoc, doc, query, orderBy, onSnapshot, QuerySnapshot, deleteDoc} from 'firebase/firestore';
+import { getDownloadURL, listAll, ref,uploadBytes } from "firebase/storage";
+import { db } from '../../Firebase/Config';
 
+export default function MediaCard({items,handleAddToCard,handleSelectedChambre}) {
 
-export default function MediaCard({items}) {
-
+ 
+ 
   const history=useHistory();
   const handleChambreInfo = (e) => {
     e.preventDefault()
           history.push('chambreinfo/'+items.name);
    }
+
+   
+
   return (
-    <Card onClick={handleChambreInfo} sx={{ maxWidth: 345 ,height:350 }}>
+    <Card  sx={{ maxWidth: 345 ,height:350 }}>
       <CardMedia
         sx={{ height: 200 ,width:345 }}
         image={items.img? items.img : c1}
@@ -38,15 +45,15 @@ export default function MediaCard({items}) {
       </CardContent>
       <CardActions disableSpacing>
 
-           <Button color="primary" style={{borderRadius:'50px',fontSize:'12px'}} >
-              <ThumbUpOffAltIcon /> &nbsp;&nbsp; j'aime
+           <Button color="primary" onClick={()=>handleSelectedChambre(items)} style={{borderRadius:'50px',fontSize:'10px'}} >
+              <ThumbUpOffAltIcon /> &nbsp;&nbsp; Consulter
            </Button>
       
-           <Button color="primary" style={{borderRadius:'50px',fontSize:'12px'}}>
+           <Button color="primary" onClick={()=>handleAddToCard(items)} style={{borderRadius:'50px',fontSize:'10px'}}>
               <AddShoppingCartIcon style={{fontSize:'17px'}}/> &nbsp;&nbsp; Ajouter
            </Button>
 
-           <Button color="primary" style={{borderRadius:'50px',fontSize:'12px'}}>
+           <Button color="primary" style={{borderRadius:'50px',fontSize:'10px'}}>
               <InventoryIcon style={{fontSize:'17px'}} /> &nbsp;&nbsp; Reserver
            </Button>
    

@@ -41,7 +41,7 @@ export default function AccountMenu({userSession}) {
             aria-expanded={open ? 'true' : undefined}
           >
             <Avatar sx={{ width: 50, height: 50 }}>
-               <img src={userSession.profile} style={{width:'50px'}}/>
+               IM
             </Avatar>
           </IconButton>
         </Tooltip>

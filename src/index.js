@@ -12,7 +12,11 @@ import Reservations from './Pages/Reservations/Reservations'
 import ChambreInfo from './Pages/ChambreInfo/ChambreInfo';
 import AdminLayout from "layouts/Admin.js";
 import Home from './Pages/Home/HomePage'
+const EventEmitter = require('events');
 
+const emitter = new EventEmitter();
+
+emitter.setMaxListeners(15);
   
 ReactDOM.render(
   <BrowserRouter>
