@@ -115,7 +115,7 @@ const HomePage = (props) => {
   }
 
   const handlePay =() =>{
-    history.push('home');
+       history.push('https://demo.campay.net/pay/betuli-3176-1713197349-WPX/');
   }
     return (
       <div style={{ backgroundColor:'rgba(233, 232, 232, 0.829)'}}>
